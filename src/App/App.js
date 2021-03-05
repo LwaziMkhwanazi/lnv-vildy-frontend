@@ -5,6 +5,8 @@ import './App.css';
 import Appbar from '../components/Uicompnents/Appbar';
 import blue from "@material-ui/core/colors/blue";
 import pink from "@material-ui/core/colors/pink";
+import PageHeader from '../components/Uicompnents/PageHeader';
+import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone';
 
 
 
@@ -19,13 +21,22 @@ const theme = createMuiTheme({
     },
     background:{
       default: '#f4f5fd'
+    },
+  },
+  shape:{
+    borderRadius:'10px'
+  },
+  overrides:{
+    MuiAppBar:{
+      root:{
+        transform:'translateZ(0)'
+      }
     }
   }
 })
 
 const useStyles = makeStyles( theme =>({
   appMain:{
-   marginLeft:'320px',
     width:'100%'
   }
 }))
@@ -37,6 +48,11 @@ function App() {
   <ThemeProvider theme = {theme}>
         <div className={classes.appMain}>
             <Appbar/>
+            <PageHeader 
+              title = "Page Header"
+              icon = {<PeopleOutlineTwoToneIcon fontSize = 'large' />} 
+              subtitle = "Page subtitle"
+              />
         </div>
         <CssBaseline/>
     </ThemeProvider>

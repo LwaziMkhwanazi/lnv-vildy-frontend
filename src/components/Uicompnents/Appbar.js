@@ -12,7 +12,8 @@ import {makeStyles} from "@material-ui/styles";
 
 const useStyles = makeStyles( theme => ({
     appBar:{
-        backgroundColor:'#fff'
+        backgroundColor:'#fff',
+        
     },
     searchInput:{
         opacity: '0.6',
@@ -30,7 +31,7 @@ const useStyles = makeStyles( theme => ({
 function Appbar() {
     const classes = useStyles()
     return (
-        <AppBar className = {classes.appBar}>
+        <AppBar position = "static" className = {classes.appBar}>
             <Toolbar>
                 <Grid container alignItems = "center">
                     <Grid item >
