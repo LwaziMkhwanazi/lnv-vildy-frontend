@@ -5,8 +5,7 @@ import './App.css';
 import Appbar from '../components/Uicompnents/Appbar';
 import blue from "@material-ui/core/colors/blue";
 import pink from "@material-ui/core/colors/pink";
-import PageHeader from '../components/Uicompnents/PageHeader';
-import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone';
+import CustomerPage from '../Pages/Customer/CustomerPage';
 
 
 
@@ -48,11 +47,7 @@ function App() {
   <ThemeProvider theme = {theme}>
         <div className={classes.appMain}>
             <Appbar/>
-            <PageHeader 
-              title = "Page Header"
-              icon = {<PeopleOutlineTwoToneIcon fontSize = 'large' />} 
-              subtitle = "Page subtitle"
-              />
+           <CustomerPage/>
         </div>
         <CssBaseline/>
     </ThemeProvider>
