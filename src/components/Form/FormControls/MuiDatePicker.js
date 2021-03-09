@@ -1,13 +1,12 @@
 import React from 'react'
-import {Field} from "formik"
-import Grid from '@material-ui/core/Grid'
 import {MuiPickersUtilsProvider,KeyboardDatePicker} from "@material-ui/pickers"
-import DateFnsUtiles from "@date-io/date-fns"
-function MuiDate({name,label,...rest}) {
-   
+import {Field} from "formik"
+import DateFnsUtils from "@date-io/date-fns"
+
+
+function MuiDatePicker({name,label,...rest}) {
     return (
-       <MuiPickersUtilsProvider utils = {DateFnsUtiles} >
-         <Grid  > 
+       <MuiPickersUtilsProvider utils = {DateFnsUtils} >
         <Field name = {name}>
             {
                 ({field,form}) =>{
@@ -17,22 +16,23 @@ function MuiDate({name,label,...rest}) {
                         return <KeyboardDatePicker
                                 {...rest}
                                 {...field}
+                                disableToolbar
+                                 variant = "inline"
+                                 inputVariant = "outlined" 
                                 id = {name} 
                                 label= {label}
-                                disableToolbar
-                                variant="inline"
                                 format="MM/dd/yyyy"
                                 margin="normal"
-                                    value = {value}
-                                    onChange = { val => setFieldValue(name,val) }
+                                 value = {value}
+                                onChange = { val => setFieldValue(name,val) }
                         />
 
                 }
             }
         </Field>
-        </Grid> 
         </MuiPickersUtilsProvider> 
     )
 }
 
-export default MuiDate
+export default MuiDatePicker
+

@@ -1,5 +1,5 @@
 
-import Sidemenu from '../components/Uicompnents/Sidemenu';
+
 import {createMuiTheme,ThemeProvider, CssBaseline, makeStyles} from "@material-ui/core"
 import './App.css';
 import Appbar from '../components/Uicompnents/Appbar';
@@ -22,10 +22,8 @@ const theme = createMuiTheme({
       default: '#f4f5fd'
     },
   },
-  shape:{
-    borderRadius:'10px'
-  },
-  overrides:{
+  
+    overrides:{
     MuiAppBar:{
       root:{
         transform:'translateZ(0)'

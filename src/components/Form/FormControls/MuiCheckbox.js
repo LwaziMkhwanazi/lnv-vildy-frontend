@@ -1,6 +1,6 @@
 import React from 'react'
 import {Field} from "formik"
-import {Checkbox, FormLabel,makeStyles,FormHelperText,FormControlLabel} from "@material-ui/core"
+import {Checkbox, FormLabel,makeStyles,FormControlLabel} from "@material-ui/core"
 const useStyles = makeStyles( theme =>({
     formControl: {
         margin: theme.spacing(1),
@@ -25,7 +25,7 @@ function Muicheckbox({name,label,options,...rest}) {
                                     <FormControlLabel
                                         control = {
                                              <Checkbox
-                                   
+                                            color = "primary"
                                      id = {option.value} 
                                                 {...field}
                                         value = {option.value} 
