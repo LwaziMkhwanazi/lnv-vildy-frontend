@@ -6,8 +6,9 @@ import { makeStyles, Paper } from '@material-ui/core';
 
 const useStyles = makeStyles( theme =>({
     paper:{
-        margin: theme.spacing(5),
-        padding:theme.spacing(3)
+        margin: '36px auto',
+        padding:theme.spacing(3),
+        maxWidth:'1100px'
     }
 }))
 

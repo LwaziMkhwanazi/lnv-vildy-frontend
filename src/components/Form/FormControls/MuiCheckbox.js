@@ -3,7 +3,8 @@ import {Field} from "formik"
 import {Checkbox, FormLabel,makeStyles,FormControlLabel} from "@material-ui/core"
 const useStyles = makeStyles( theme =>({
     formControl: {
-        margin: theme.spacing(1),
+      
+        marginLeft:'18px'
       },
       checkboxlabel:{
           marginRight:'20px'
@@ -11,13 +12,14 @@ const useStyles = makeStyles( theme =>({
 }))
 function Muicheckbox({name,label,options,...rest}) {
     const classes = useStyles()
+  
     return (
            <div className = {classes.formControl}> 
            <FormLabel 
             className = {classes.checkboxlabel} >{label}</FormLabel>
           <Field name = {name} id= {name} {...rest} >
                 {
-                    ({field,form}) =>{
+                    ({field}) =>{
                        
                         return options.map( option => {
                             return(
@@ -41,9 +43,10 @@ function Muicheckbox({name,label,options,...rest}) {
                             )
                         })
                     }
+                   
                 }
         </Field>
-    
+      
        </div> 
     )
 }

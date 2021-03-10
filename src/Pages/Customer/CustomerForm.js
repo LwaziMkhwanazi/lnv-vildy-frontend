@@ -18,6 +18,9 @@ import * as Yup from "yup";
         },
         resert:{
             width:'40%'
+        },
+        buttonDiv:{
+            marginTop: theme.spacing(1)
         }
     }))
 
@@ -37,10 +40,10 @@ function CustomerForm() {
 
     const initialValues = {
         firstname:'',
-        lastname:'',
         gender:'',
         skills: '',
-        backend:[],
+        mobile:'',
+        backend:[''],
         registrationDate: new Date()
     }
 
@@ -49,12 +52,11 @@ function CustomerForm() {
     }
 
     const validationSchema = Yup.object({
-        firstname:Yup.string().required('First name is required'),
-        lastname:Yup.string().required('Last name is required'),
-        gender: Yup.string().required('Gender required'),
-        skills: Yup.string().required('Skill is required'),
-        backend:[],
-        registrationDate: new Date()
+        firstname: Yup.string().min(5).max(50).required('First name is required'),
+        skills: Yup.string().required('Skill is requred'),
+        gender: Yup.string().required('Gender is required'),
+        mobile: Yup.number('Invalid Phone number').required('Phone number is required'),
+        backend: Yup.array().required('Backend is required')
     })
 
     const classes = useStyles()
@@ -65,25 +67,28 @@ function CustomerForm() {
             validationSchema = {validationSchema}
         >
             {
-              (formik) => {
+              formik => {
                   return <Form className = {classes.form} autoComplete = "off" >
                         <Grid container>
                             <Grid item xs = {6}>
                                 <FormikControl
                                     control = "MuiInput"
                                     name = "firstname"
-                                    label = "First Name"
+                                    label = " Name"
+                                    autoFocus = {true}
                                 />
+                              
                                 <FormikControl
                                     control = "MuiInput"
-                                    name = "lastname"
-                                    label = "Last Name"
+                                    name ="mobile"
+                                    label = "Mobile number"
                                 />
-                               
                                 <FormikControl
                                     control = "MuiRadio"
                                     label = "Gender"
                                     name = "gender"
+                                    error = {formik.errors.gender}
+                                    touched = {formik.touched.gender}
                                     options = {genderItems}
                                />
                             </Grid>
@@ -93,6 +98,8 @@ function CustomerForm() {
                                     control = "MuiSelect"
                                     name = "skills"
                                     label = "Skills"
+                                    error = {formik.errors.skills}
+                                    touched = {formik.touched.skills}
                                     options = {skills}
                                 />
                                 <FormikControl
@@ -105,11 +112,12 @@ function CustomerForm() {
                                     control = "MuiCheckbox"
                                     name = "backend"
                                     label = "Backend"
+                                    error = {formik.errors.backend}
                                     options = {backend}
                                 />
                                
-                               <div >
-                             <Button className = {classes.button} style ={{marginRight:'8px'}} variant = "contained" color = "primary" type = "submit" >Submit</Button>
+                               <div className = {classes.buttonDiv} >
+                             <Button className = {classes.button} disabled = {!formik.isValid}  style ={{marginRight:'8px'}} variant = "contained" color = "primary" type = "submit" >Submit</Button>
                             <Button className = {classes.resert} variant = "contained" type = "reset" >Reset</Button>
                             </div>
                             </Grid>
