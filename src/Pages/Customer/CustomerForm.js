@@ -2,6 +2,8 @@ import React from 'react'
 import {Form,Formik} from "formik";
 import { Button, Grid, makeStyles } from '@material-ui/core';
 import FormikControl from '../../components/Form/FormikControl';
+
+
 import * as Yup from "yup";
 
 
@@ -25,6 +27,7 @@ import * as Yup from "yup";
     }))
 
 function CustomerForm() {
+   
     const genderItems = [
         {key:'Male',value:'Male'},
         {key: 'Female', value: 'Female'}
@@ -48,7 +51,7 @@ function CustomerForm() {
     }
 
     const handleSubmit = values => {
-        console.log('Value', values)
+      
     }
 
     const validationSchema = Yup.object({

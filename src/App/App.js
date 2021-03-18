@@ -9,7 +9,6 @@ import CustomerPage from '../Pages/Customer/CustomerPage';
 
 
 
-
 const theme = createMuiTheme({
   palette:{
     primary:{
@@ -43,12 +42,14 @@ function App() {
   return (
    <> 
   <ThemeProvider theme = {theme}>
-        <div className={classes.appMain}>
-            <Appbar/>
-           <CustomerPage/>
-        </div>
-        <CssBaseline/>
-    </ThemeProvider>
+  
+            <div className={classes.appMain}>
+                <Appbar/>
+              <CustomerPage/>
+            </div>
+            <CssBaseline/>
+  
+  </ThemeProvider>
     </>
     
   );
