@@ -12,8 +12,8 @@ import CustomersForm from './CustomersForm';
 
 const useStyles = makeStyles( theme =>({
     paper:{
-        margin: '30px auto',
-        padding:'20px 30px',
+        margin: '20px auto',
+        padding:'15px 30px',
         maxWidth:'1100px'
     },
     button:{
@@ -26,25 +26,26 @@ const useStyles = makeStyles( theme =>({
 }))
 
 const headCells = [
-    {id:'id', label:'Customer Id'},
-    {id:'name', label:'First Name'},
+    {id:'name', label:'Customer Name'},
     {id:'phone', label:'Phone Number'},
+    {id:'isGold', label:'Is Gold'},
 ]
  
 function CustomerPage({customers,getCustomers}) {
+   const records =  customers && customers.customers
     const classes = useStyles()
     const [openPopup,setOpenPopup] = useState(false)
-const {TblContainer,TblHeader} = useTable(headCells)
+const {TblContainer,TblHeader,TblPagination,recordsAfterPagingAndSorting} = useTable(records,headCells)
 
 useEffect(()=>{
     getCustomers()
-},[getCustomers])
+},[getCustomers,openPopup])
 
     return (
         <div>
             <PageHeader icon = {<PeopleOutlineTwoToneIcon fontSize = "large" />} 
             title = "Customer Page" 
-            subtitle = "Add and Delete Customer Details" />
+            subtitle = "Add Delete Edit and Display Customers Details" />
             <Paper className = {classes.paper} >
                     <Grid container  justify = "flex-end">
                     <Button startIcon = {<AddIcon/>} className = {classes.button} 
@@ -54,18 +55,18 @@ useEffect(()=>{
                       <TblHeader/>
                         <TableBody>
                             {
-                             customers && customers.customers && customers.customers.map( customer =>(
+                             recordsAfterPagingAndSorting().map( customer =>(
                                         <TableRow key = {customer._id}>
-                                            <TableCell>{customer._id}</TableCell>
                                             <TableCell>{customer.name}</TableCell>
                                             <TableCell>{customer.phone}</TableCell>
+                                            <TableCell>{customer.isGold}</TableCell>
                                         
                                         </TableRow>
                                 ))
                             }
                         </TableBody>
                   </TblContainer>
-                 
+                 <TblPagination/>
             </Paper>
             <PopUp
             title = "Customer Form"
@@ -87,7 +88,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return{
         getCustomers: ()=> dispatch(fetchCustomer()),
-       
+      
     }
 }
 

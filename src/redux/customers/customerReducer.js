@@ -3,6 +3,7 @@ import * as customerTypes from "./customerTypes"
 const initialState = {
     loading: false,
     customers:[],
+    customerSuccess:{},
     error: ''
 }
 
@@ -32,9 +33,10 @@ const customerReducer = (state = initialState,action) =>{
                           }
                        case customerTypes.POST_CUSTOMER_SUCCESS:
                            return{
-                               loading: false,
-                               customers: action.payload,
-                               error: ''
+                              ...state,
+                              loading:false,
+                              customerSuccess:action.payload
+                             
                            } 
                          case customerTypes.POST_CUSTOMER_FAILURE:
                              return{
@@ -47,5 +49,5 @@ const customerReducer = (state = initialState,action) =>{
                             return state 
             }
 }
-
+  
 export default customerReducer

@@ -48,11 +48,10 @@ const postCustomerFailure = error => {
 export const postCustomer = (customer) =>{
         return dispatch =>{
             dispatch(postCustomerRequest())
-            console.log(customer)
             axiosInstance.post('/api/customers',{
                 name:customer.name,
                 phone: customer.phone,
-                isGold: true
+                isGold: customer.isGold
             }) 
             .then( response => {
                     const customers = response.data

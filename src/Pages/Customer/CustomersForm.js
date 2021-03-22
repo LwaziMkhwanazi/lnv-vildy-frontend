@@ -21,31 +21,34 @@ const useStyles = makeStyles( theme =>({
 function CustomersForm({setOpenPopup,postCustomer}) {
 
     const isGold = [
-        {key:'Yes',value:'yes'},
+        {key:'Yes',value:'Yes'},
+        {key:'No',value:'No'}
       
     ]
 
     const initialValues = {
         name: '',
         phone:'',
-        isGold: []
+        isGold:''
+       
     }
     const validationSchema = Yup.object({
         name: Yup.string().required('Name is Required').min(5).max(50),
         phone: Yup.number('Invalid Nmber').required('Phone number is requires'),
-        isGold: Yup.array()
+        isGold: Yup.string().required('Gold is required')
     })
 
-    const handleSubmit = values => {
-        console.log(values)
-    }
+   const onSubmit = values =>{
+     postCustomer(values)
+     setOpenPopup(false)
+   }
 
     const classes = useStyles()
     return (
         <Formik
             initialValues = {initialValues}
             validationSchema = {validationSchema}
-            onSubmit = {handleSubmit}
+            onSubmit = {onSubmit}
         >
             {
                (formik) =>{
@@ -57,12 +60,16 @@ function CustomersForm({setOpenPopup,postCustomer}) {
                                         name = "name"
                                         label = "Name"
                                     />
+
                                     <FormikControl
-                                        control = "MuiCheckbox"
+                                        control = "MuiRadio"
                                         name = "isGold"
-                                        label = "isGold"
+                                        label = "Is Gold"
+                                        error = {formik.errors.isGold}
+                                        touched = {formik.touched.isGold}
                                         options = {isGold}
                                     />
+                                
                                 </Grid>
                                 <Grid item xs = {6}>
                                 <FormikControl
@@ -71,11 +78,8 @@ function CustomersForm({setOpenPopup,postCustomer}) {
                                         label = "Phone Number"
 
                                     />
-                                  
-                                    <Button style = {{marginLeft:'5px'}} variant = "contained" type = "reset" >Reset</Button>
-                                    <Button onClick = {handleSubmit} className = {classes.button}   
-                                    style ={{marginLeft:'8px'}} variant = "contained"
-                                     color = "primary" type = "submit" disabled = {!formik.isValid} >Submit</Button>
+                                    <Button style = {{marginRight:'8px',marginLeft:'8px'}} variant = "contained" type = "reset">Reset</Button>
+                                        <Button disabled = {!formik.isValid} color = "primary" type = "submit" variant = "contained" >Submit</Button>
                                   
                                 </Grid>
                             </Grid>

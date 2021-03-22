@@ -1,5 +1,5 @@
-import { makeStyles, Table, TableCell, TableHead, TableRow } from '@material-ui/core'
-import React from 'react'
+import { makeStyles, Table, TableCell, TableHead, TablePagination, TableRow } from '@material-ui/core'
+import React, { useState } from 'react'
 const useStyles = makeStyles( theme => ({
     table:{
         
@@ -17,13 +17,37 @@ const useStyles = makeStyles( theme => ({
             }
     }
 }))
-function useTable(headCells) {
+function useTable(records,headCells) {
     const classes = useStyles()
     const TblContainer = props =>(
         <Table className = {classes.table} >
             {props.children}
         </Table>
     )
+
+const pages = [5,10,20]
+const [page,setPage] = useState(0)
+const [rowsPerPage,setRowsPerPage] = useState(pages[page])
+ 
+const handleChange = (event,newPage) =>{
+        setPage(newPage)
+}
+const handleRowsPerPageChange = (e) =>{
+    setRowsPerPage(parseInt(e.target.value,10))
+    setPage(0)
+}
+const TblPagination = () => {
+    return <TablePagination
+        component = "div"
+        page = {page}
+        rowsPerPage = {rowsPerPage}
+        rowsPerPageOptions = {pages}
+       count = {records.length}
+       onChangePage = {handleChange}
+       onChangeRowsPerPage = {handleRowsPerPageChange}
+    />
+}
+
 
     const TblHeader = props =>{
 
@@ -41,9 +65,16 @@ function useTable(headCells) {
         )
 
     }
+
+    const recordsAfterPagingAndSorting = () =>{
+        return records.slice(page*rowsPerPage,(page+1)*rowsPerPage)
+    }
+
     return {
         TblContainer,
-        TblHeader
+        TblHeader,
+        TblPagination,
+        recordsAfterPagingAndSorting
     }
 }
 
