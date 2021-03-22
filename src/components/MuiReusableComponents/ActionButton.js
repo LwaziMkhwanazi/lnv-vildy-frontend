@@ -8,7 +8,7 @@ const useStyles = makeStyles( theme =>({
   secondary:{
       backgroundColor: theme.palette.secondary.light,
       '& .MuiButton-label':{
-          color: '#fff'
+          color: theme.palette.common.white
       }
   },
   primary:{

@@ -25,7 +25,24 @@ const customerReducer = (state = initialState,action) =>{
                             customers:[],
                             error: action.payload
                         }
-                        
+                      case customerTypes.POST_CUSTOMER_REQUEST:
+                          return{
+                              ...state,
+                              loading:true
+                          }
+                       case customerTypes.POST_CUSTOMER_SUCCESS:
+                           return{
+                               loading: false,
+                               customers: action.payload,
+                               error: ''
+                           } 
+                         case customerTypes.POST_CUSTOMER_FAILURE:
+                             return{
+                                 loading:false,
+                                 customers: [],
+                                 error: action.payload
+                             }
+                                   
                        default: 
                             return state 
             }

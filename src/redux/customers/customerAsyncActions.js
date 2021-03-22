@@ -1,5 +1,7 @@
 import * as customerTypes from "./customerTypes";
-import axios from "axios"
+import axiosInstance from "../../axios"
+import axiosIntance from "../../axios";
+
 const fetchCustomerRequest = () =>{
     return{
         type: customerTypes.FETCH_CUSTOMER_REQUEST
@@ -20,10 +22,56 @@ const fetchCustomerFailure = error => {
     }
 }
 
+
+//POST
+const postCustomerRequest = () =>{
+    return{
+        type: customerTypes.POST_CUSTOMER_REQUEST
+    }
+}
+
+const postCustomerSuccess = customers =>{
+    return{
+        type: customerTypes.POST_CUSTOMER_SUCCESS,
+        payload: customers
+    }
+}
+
+const postCustomerFailure = error => {
+    return{
+        type: customerTypes.POST_CUSTOMER_FAILURE,
+        payload: error
+    }
+}
+
+
+export const postCustomer = (customer) =>{
+        return dispatch =>{
+            dispatch(postCustomerRequest())
+            console.log(customer)
+            axiosInstance.post('/api/customers',{
+                name:customer.name,
+                phone: customer.phone,
+                isGold: true
+            }) 
+            .then( response => {
+                    const customers = response.data
+                    dispatch(postCustomerSuccess(customers))
+                })
+                .catch(error =>{
+                    const errorMsg = error.message
+                    dispatch(postCustomerFailure(errorMsg))
+                })
+        }
+}
+
+
+
+
  export const fetchCustomer = () => {
     return dispatch =>{
             dispatch(fetchCustomerRequest())
-            axios.get('http://localhost:3000/api/customers')
+            axiosIntance.get('/api/customers')
             .then( response => {
                 const customers = response.data
                 dispatch(fetchCustomerSuccess(customers))

@@ -4,10 +4,11 @@ import AddIcon from '@material-ui/icons/Add';
 import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone';
 import {makeStyles, Paper, TableBody, TableRow,TableCell, Button,Grid} from '@material-ui/core';
 import {connect} from "react-redux"
-import { fetchCustomer } from '../../redux/customers/customerAsyncActions';
+import { fetchCustomer} from '../../redux/customers/customerAsyncActions';
 import useTable from '../../components/Table/useTable';
 import PopUp from '../../components/MuiReusableComponents/PopUp';
-import CustomerForm from './CustomerForm';
+
+import CustomersForm from './CustomersForm';
 
 const useStyles = makeStyles( theme =>({
     paper:{
@@ -41,7 +42,6 @@ useEffect(()=>{
 
     return (
         <div>
-            <CustomerForm/>
             <PageHeader icon = {<PeopleOutlineTwoToneIcon fontSize = "large" />} 
             title = "Customer Page" 
             subtitle = "Add and Delete Customer Details" />
@@ -72,7 +72,7 @@ useEffect(()=>{
              openPopup = {openPopup}
              setOpenPopup = {setOpenPopup}
             >
-              <CustomerForm/>              
+             <CustomersForm setOpenPopup = {setOpenPopup}/>
             </PopUp>
         </div>
     )
@@ -86,7 +86,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
     return{
-        getCustomers: ()=> dispatch(fetchCustomer())
+        getCustomers: ()=> dispatch(fetchCustomer()),
+       
     }
 }
 

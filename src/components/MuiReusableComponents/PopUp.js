@@ -28,7 +28,7 @@ function PopUp({title,children,openPopup,setOpenPopup}) {
                     text = "X"
                     onClick = {()=>setOpenPopup(false)}
                 >
-                  <CloseIcon color = "#fff" />
+                  <CloseIcon  />
                 </MuiControls.ActionButton>
                 
                </div>

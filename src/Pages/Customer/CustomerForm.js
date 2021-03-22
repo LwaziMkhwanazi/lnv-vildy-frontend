@@ -26,40 +26,32 @@ import * as Yup from "yup";
         }
     }))
 
-function CustomerForm() {
+function CustomerForm({setOpenPopup}) {
    
-    const genderItems = [
-        {key:'Male',value:'Male'},
-        {key: 'Female', value: 'Female'}
-    ]
-    const skills = [
-        {key:'React',value:'React'},
-        {key: 'Angular', value: 'Angular'}
-    ]
-    const backend = [
-        {key:'Nodejs',value:'Nodejs'},
-        {key: 'Mongodb', value: 'Mongodb'}
+    
+    
+    const isGold = [
+        {key:'Yes',value:'yes'},
+      
     ]
 
     const initialValues = {
-        firstname:'',
-        gender:'',
-        skills: '',
+        name:'',
         mobile:'',
-        backend:[''],
-        registrationDate: new Date()
+        isGold:[''],
+      
     }
 
     const handleSubmit = values => {
-      
+        console.log(values)
+        setOpenPopup(false)
+     
     }
 
     const validationSchema = Yup.object({
         firstname: Yup.string().min(5).max(50).required('First name is required'),
-        skills: Yup.string().required('Skill is requred'),
-        gender: Yup.string().required('Gender is required'),
         mobile: Yup.number('Invalid Phone number').required('Phone number is required'),
-        backend: Yup.array().required('Backend is required')
+        isGold: Yup.string()
     })
 
     const classes = useStyles()
@@ -74,59 +66,29 @@ function CustomerForm() {
                   return <Form className = {classes.form} autoComplete = "off" >
                         <Grid container>
                             <Grid item xs = {6}>
-                                <FormikControl
-                                    control = "MuiInput"
-                                    name = "firstname"
-                                    label = " Name"
-                                    autoFocus = {true}
-                                />
+                              <FormikControl
+                                control = "Muiinput"
+                                name = "name"
+                                label = "Customer Name"
+                              /> 
                               
-                                <FormikControl
-                                    control = "MuiInput"
-                                    name ="mobile"
-                                    label = "Mobile number"
-                                />
-                                <FormikControl
-                                    control = "MuiRadio"
-                                    label = "Gender"
-                                    name = "gender"
-                                    error = {formik.errors.gender}
-                                    touched = {formik.touched.gender}
-                                    options = {genderItems}
-                               />
                             </Grid>
                             <Grid item xs = {6}>
                           
-                                <FormikControl
-                                    control = "MuiSelect"
-                                    name = "skills"
-                                    label = "Skills"
-                                    error = {formik.errors.skills}
-                                    touched = {formik.touched.skills}
-                                    options = {skills}
-                                />
-                                <FormikControl
-                                    control = "MuiDatePicker"
-                                    name = "registrationDate"
-                                    label = "Registration Date"
-                                   
-                                />
-                                <FormikControl
-                                    control = "MuiCheckbox"
-                                    name = "backend"
-                                    label = "Backend"
-                                    error = {formik.errors.backend}
-                                    options = {backend}
-                                />
-                               
-                               <div className = {classes.buttonDiv} >
-                             <Button className = {classes.button} disabled = {!formik.isValid}  style ={{marginRight:'8px'}} variant = "contained" color = "primary" type = "submit" >Submit</Button>
-                            <Button className = {classes.resert} variant = "contained" type = "reset" >Reset</Button>
-                            </div>
+                          
+
+                              
+                              
                             </Grid>
                             
                         </Grid>
-                        
+                         
+                            <div >
+                             <Button className = {classes.button}  
+                              style ={{marginLeft:'8px'}} variant = "contained" 
+                              color = "primary" type = "submit" >Submit</Button>
+                            <Button className = {classes.resert} variant = "contained" type = "reset" >Reset</Button>
+                            </div>
                   </Form>
               }  
             }

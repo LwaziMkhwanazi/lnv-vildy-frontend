@@ -20,7 +20,7 @@ function Muicheckbox({name,label,options,...rest}) {
           <Field name = {name} id= {name} {...rest} >
                 {
                     ({field}) =>{
-                       
+                     
                         return options.map( option => {
                             return(
                                 <React.Fragment key = {option.key}>

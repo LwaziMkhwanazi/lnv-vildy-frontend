@@ -9,7 +9,7 @@ function Muiselect({name,label,options,error = null,touched,...rest}) {
             helperText = {touched && error ? error : null} error = {touched && error ? true: false}
          >
   
-          {
+          { 
             options.map( option =>{
                 return <MenuItem key = {option.key} value = {option.value} >
                             {option.key}
