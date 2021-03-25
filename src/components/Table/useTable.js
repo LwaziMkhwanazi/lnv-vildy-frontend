@@ -55,7 +55,7 @@ const TblPagination = () => {
             <TableHead>
                 <TableRow>
                     {
-                        headCells.map( headCell => ( <TableCell key = {headCell.id}>
+                        headCells.map( headCell => ( <TableCell size = "small" align = "center" key = {headCell.id}>
                         {headCell.label}
                     </TableCell>
                     ))

@@ -5,8 +5,9 @@ function Muiselect({name,label,options,error = null,touched,...rest}) {
         
     return (
         <Field name = {name} as = {TextField} select  label = {label}
-            variant = "outlined" {...rest} 
-            helperText = {touched && error ? error : null} error = {touched && error ? true: false}
+           {...rest} 
+            helperText = {touched && error ? error : null} 
+            error = {touched && error ? true: false}
          >
   
           { 

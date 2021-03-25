@@ -44,6 +44,48 @@ const postCustomerFailure = error => {
     }
 }
 
+//Edit
+const editCustomerRequest = () =>{
+    return{
+        type: customerTypes.EDIT_CUSTOMER_REQUEST
+    }
+}
+
+const editCustomerSuccess = customers =>{
+    return{
+        type: customerTypes.EDIT_CUSTOMER_SUCCESS,
+        payload: customers
+    }
+}
+
+const editCustomerFailure = error => {
+    return{
+        type: customerTypes.EDIT_CUSTOMER_FAILURE,
+        payload: error
+    }
+}
+
+export const editCustomer = (customer) =>{
+    return dispatch =>{
+        dispatch(editCustomerRequest())
+        axiosInstance.put(`/api/customers/${customer._id}`,{
+            name:customer.name,
+            phone: customer.phone,
+            isGold: customer.isGold
+        }) 
+        .then( response => {
+                const customers = response.data
+                dispatch(editCustomerSuccess(customers))
+            })
+            .catch(error =>{
+                const errorMsg = error.message
+                dispatch(editCustomerFailure(errorMsg))
+            })
+    }
+}
+
+
+
 
 export const postCustomer = (customer) =>{
         return dispatch =>{

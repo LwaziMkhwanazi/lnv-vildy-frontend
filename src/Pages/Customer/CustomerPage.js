@@ -7,8 +7,12 @@ import {connect} from "react-redux"
 import { fetchCustomer} from '../../redux/customers/customerAsyncActions';
 import useTable from '../../components/Table/useTable';
 import PopUp from '../../components/MuiReusableComponents/PopUp';
-
 import CustomersForm from './CustomersForm';
+import ActionButton from '../../components/MuiReusableComponents/ActionButton';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteIcon from '@material-ui/icons/Delete';
+import SearchEditDeleteForm from '../../components/Form/SearchEditDeleteForm';
+
 
 const useStyles = makeStyles( theme =>({
     paper:{
@@ -19,27 +23,36 @@ const useStyles = makeStyles( theme =>({
     button:{
         backgroundColor:'#fff' ,
         color: theme.palette.primary.main,
-        marginBottom: theme.spacing(1),
         textTransform:'none'
         
-    }
+    },
+  
 }))
 
 const headCells = [
     {id:'name', label:'Customer Name'},
     {id:'phone', label:'Phone Number'},
     {id:'isGold', label:'Is Gold'},
+    {id:'actions', label:'actions'},
 ]
+
  
 function CustomerPage({customers,getCustomers}) {
    const records =  customers && customers.customers
     const classes = useStyles()
     const [openPopup,setOpenPopup] = useState(false)
+    const [recordForEdit,setRecordForEdit] = useState(null)
+    const editedCustomer = customers && customers.editCustomer
 const {TblContainer,TblHeader,TblPagination,recordsAfterPagingAndSorting} = useTable(records,headCells)
 
 useEffect(()=>{
     getCustomers()
-},[getCustomers,openPopup])
+},[getCustomers,openPopup,editedCustomer])
+
+const editCustomer = (customer) =>{
+        setRecordForEdit(customer)
+       
+}
 
     return (
         <div>
@@ -47,9 +60,14 @@ useEffect(()=>{
             title = "Customer Page" 
             subtitle = "Add Delete Edit and Display Customers Details" />
             <Paper className = {classes.paper} >
-                    <Grid container  justify = "flex-end">
-                    <Button startIcon = {<AddIcon/>} className = {classes.button} 
-                    variant = "outlined" size = "medium" onClick = {()=> setOpenPopup(true)} >Add New</Button>
+                    <Grid container  >
+                       <Grid item xs = {10}>
+                        <SearchEditDeleteForm   recordForEdit = {recordForEdit} setRecordForEdit = {setRecordForEdit} />
+                       </Grid>
+                        <Grid item container justify = "flex-end" alignContent = "center" xs = {2}>
+                        <Button startIcon = {<AddIcon/>} className = {classes.button} 
+                            variant = "outlined" size = "medium" onClick = {()=> setOpenPopup(true)} >Add New</Button>
+                        </Grid>
                     </Grid>
                   <TblContainer>
                       <TblHeader/>
@@ -57,10 +75,23 @@ useEffect(()=>{
                             {
                              recordsAfterPagingAndSorting().map( customer =>(
                                         <TableRow key = {customer._id}>
-                                            <TableCell>{customer.name}</TableCell>
-                                            <TableCell>{customer.phone}</TableCell>
-                                            <TableCell>{customer.isGold}</TableCell>
-                                        
+                                            <TableCell size = "small"  align = "center" >{customer.name}</TableCell>
+                                            <TableCell  size = "small" align = "center" >{customer.phone}</TableCell>
+                                            <TableCell  size = "small"  align = "center" >{customer.isGold}</TableCell>
+                                            <TableCell  size = "small" align = "center">
+                                                <ActionButton
+                                                    color = "primary"
+                                                    onClick = {()=> editCustomer(customer)}
+                                                >
+                                                <EditOutlinedIcon fontSize = "small" />
+                                                </ActionButton>
+                                                <ActionButton
+                                                    color = "secondary"
+                                                >
+                                                <DeleteIcon fontSize = "small"/>
+                                                </ActionButton>
+                                                   
+                                            </TableCell>
                                         </TableRow>
                                 ))
                             }
@@ -73,7 +104,10 @@ useEffect(()=>{
              openPopup = {openPopup}
              setOpenPopup = {setOpenPopup}
             >
-             <CustomersForm setOpenPopup = {setOpenPopup}/>
+             <CustomersForm 
+              
+             setOpenPopup = {setOpenPopup}
+             />
             </PopUp>
         </div>
     )

@@ -14,16 +14,18 @@ const useStyles = makeStyles( theme =>({
   primary:{
     backgroundColor: theme.palette.primary.light,
     '& .MuiButton-label':{
-        color: theme.palette.primary.main
+        color: theme.palette.common.white
     }
 }
 }))
-function ActionButton({children,color,onClick}) {
+function ActionButton({children,color,type,variant,onClick}) {
     const classes = useStyles()
     return (
         <Button
+            variant = {variant}
         className = { `${classes.root} ${classes[color]}`}
         onClick = {onClick}
+            type = {type}
             >
             {children}
         </Button>
