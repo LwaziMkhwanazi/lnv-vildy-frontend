@@ -1,12 +1,12 @@
 
-
-import {createMuiTheme,ThemeProvider, CssBaseline, makeStyles} from "@material-ui/core"
+import {createMuiTheme,ThemeProvider, CssBaseline} from "@material-ui/core"
 import './App.css';
-import Appbar from '../components/Uicompnents/Appbar';
 import blue from "@material-ui/core/colors/blue";
 import pink from "@material-ui/core/colors/pink";
 import CustomerPage from '../Pages/Customer/CustomerPage';
-
+import GenrePage from "../Pages/Genre/GenrePage";
+import {Route,Switch,BrowserRouter} from "react-router-dom"
+import Layout from "../components/Layout";
 
 
 const theme = createMuiTheme({
@@ -31,24 +31,27 @@ const theme = createMuiTheme({
   }
 })
 
-const useStyles = makeStyles( theme =>({
-  appMain:{
-    width:'100%'
-  }
-}))
+
 
 function App() {
-  const classes = useStyles()
+
   return (
    <> 
   <ThemeProvider theme = {theme}>
   
-            <div className={classes.appMain}>
-                <Appbar/>
-              <CustomerPage/>
-            </div>
+        <BrowserRouter>
+        <Layout>
+            <Switch>
+                <Route exact path = "/genres">
+                    <GenrePage/>
+                </Route>
+                <Route path = "/customers">
+                    <CustomerPage/>
+                </Route>
+            </Switch>
+          </Layout>  
+        </BrowserRouter>
             <CssBaseline/>
-  
   </ThemeProvider>
     </>
     

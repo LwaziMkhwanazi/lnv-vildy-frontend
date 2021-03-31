@@ -3,14 +3,14 @@ import React,{useEffect} from 'react'
 import {Grid, makeStyles,} from '@material-ui/core'
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
-import ActionButton from '../MuiReusableComponents/ActionButton';
+import ActionButton from '../../components/MuiReusableComponents/ActionButton';
 import {Formik,Form} from "formik";
 import * as Yup from "yup";
 import SaveIcon from '@material-ui/icons/Save';
-import FormikControl from './FormikControl';
+import FormikControl from '../../components/Form/FormikControl';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import DeleteIcon from '@material-ui/icons/Delete';
-import {editCustomer} from "../../redux/customers/customerAsyncActions"
+import {editCustomer,deleteCustomer,getSingleCustomer} from "../../redux/customers/customerAsyncActions"
 import {connect} from "react-redux"
 const useStyles = makeStyles( theme => ({
     searchButton:{
@@ -38,10 +38,13 @@ const initialVales = {
     phone:'',
     isGold:''
 }
-function SearchEditDeleteForm({recordForEdit,setRecordForEdit,customers, editCustomer}) {
+function SearchEditDeleteForm({recordForEdit,setRecordForEdit,customers,
+    
+    editCustomer, deleteCustomer,getCustomer}) {
     const classes = useStyles()
     const editedCustomer = customers && customers.editCustomer
- 
+  
+   
 
    const validationSchema = Yup.object({
         name: Yup.string().min(5).max(50).required(),
@@ -52,6 +55,7 @@ function SearchEditDeleteForm({recordForEdit,setRecordForEdit,customers, editCus
    const handleSubmit = values =>{
         editCustomer(values)
    }
+
 
    useEffect(()=>{
         setRecordForEdit(null)
@@ -116,7 +120,7 @@ function SearchEditDeleteForm({recordForEdit,setRecordForEdit,customers, editCus
                     </Grid>
                       
                   <Grid item>
-                    <ActionButton  color = "secondary">
+                    <ActionButton onClick = {()=>getCustomer(formik.values)} color = "secondary">
                         <SearchIcon/>
                         </ActionButton>
                   </Grid>
@@ -127,7 +131,7 @@ function SearchEditDeleteForm({recordForEdit,setRecordForEdit,customers, editCus
                          </ActionButton>
                     </Grid>
                     <Grid item>
-                     <ActionButton color = "secondary" type = "submit" >
+                     <ActionButton onClick = {()=>deleteCustomer(formik.values)} color = "secondary" type = "reset" >
                          <DeleteIcon/>
                          </ActionButton>
                     </Grid>
@@ -151,7 +155,9 @@ const mapStateToProps = state =>{
 
 const mapDispatchedToProps = dispatch =>{
     return{
-        editCustomer: (customer) => dispatch(editCustomer(customer))
+        editCustomer: (customer) => dispatch(editCustomer(customer)),
+        deleteCustomer: (customer) => dispatch(deleteCustomer(customer)),
+        getCustomer: (customer) => dispatch(getSingleCustomer(customer))
     }
 }
 export default connect(mapStateToProps,mapDispatchedToProps)(SearchEditDeleteForm)

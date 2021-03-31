@@ -4,14 +4,15 @@ import AddIcon from '@material-ui/icons/Add';
 import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone';
 import {makeStyles, Paper, TableBody, TableRow,TableCell, Button,Grid} from '@material-ui/core';
 import {connect} from "react-redux"
-import { fetchCustomer} from '../../redux/customers/customerAsyncActions';
+import { fetchCustomer,deleteCustomer} from '../../redux/customers/customerAsyncActions';
 import useTable from '../../components/Table/useTable';
 import PopUp from '../../components/MuiReusableComponents/PopUp';
 import CustomersForm from './CustomersForm';
 import ActionButton from '../../components/MuiReusableComponents/ActionButton';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
-import SearchEditDeleteForm from '../../components/Form/SearchEditDeleteForm';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import SearchEditDeleteForm from './SearchEditDeleteForm';
 
 
 const useStyles = makeStyles( theme =>({
@@ -26,6 +27,11 @@ const useStyles = makeStyles( theme =>({
         textTransform:'none'
         
     },
+    progress:{
+        position:'absolute',
+        top:'21rem',
+        right: '37rem'
+    }
   
 }))
 
@@ -33,21 +39,23 @@ const headCells = [
     {id:'name', label:'Customer Name'},
     {id:'phone', label:'Phone Number'},
     {id:'isGold', label:'Is Gold'},
-    {id:'actions', label:'actions'},
+    {id:'actions', label:'Actions'},
 ]
 
  
-function CustomerPage({customers,getCustomers}) {
+function CustomerPage({customers,getCustomers,deleteCustomer}) {
    const records =  customers && customers.customers
     const classes = useStyles()
     const [openPopup,setOpenPopup] = useState(false)
     const [recordForEdit,setRecordForEdit] = useState(null)
     const editedCustomer = customers && customers.editCustomer
+    const deletedCustomer = customers && customers.deletedCustomer
+ 
 const {TblContainer,TblHeader,TblPagination,recordsAfterPagingAndSorting} = useTable(records,headCells)
 
 useEffect(()=>{
     getCustomers()
-},[getCustomers,openPopup,editedCustomer])
+},[getCustomers,openPopup,editedCustomer,deletedCustomer])
 
 const editCustomer = (customer) =>{
         setRecordForEdit(customer)
@@ -88,7 +96,7 @@ const editCustomer = (customer) =>{
                                                 <ActionButton
                                                     color = "secondary"
                                                 >
-                                                <DeleteIcon fontSize = "small"/>
+                                                <DeleteIcon onClick = {()=> deleteCustomer(customer)} fontSize = "small"/>
                                                 </ActionButton>
                                                    
                                             </TableCell>
@@ -98,6 +106,7 @@ const editCustomer = (customer) =>{
                         </TableBody>
                   </TblContainer>
                  <TblPagination/>
+                 {customers && customers.loading? <CircularProgress className = {classes.progress} size = "2rem" /> : null}
             </Paper>
             <PopUp
             title = "Customer Form"
@@ -109,6 +118,7 @@ const editCustomer = (customer) =>{
              setOpenPopup = {setOpenPopup}
              />
             </PopUp>
+           
         </div>
     )
 }
@@ -122,7 +132,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return{
         getCustomers: ()=> dispatch(fetchCustomer()),
-      
+        deleteCustomer: (customer) => dispatch(deleteCustomer(customer))
     }
 }
 

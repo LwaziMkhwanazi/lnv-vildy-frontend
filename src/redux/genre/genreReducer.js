@@ -1,103 +1,104 @@
-import * as customerTypes from "./customerTypes"
+import * as genreTypes from "./genreTypes"
 
 const initialState = {
     loading: false,
-    customers:[],
-    customerSuccess:{},
-    editCustomer:{},
-    deletedCustomer:{},
-    singleCustomer:{},
+    genres:[],
+    postedGenre:{},
+    editGenre:{},
+    deletedGenre:{},
+    singleGenre:{},
     error: ''
 }
 
-const customerReducer = (state = initialState,action) =>{
+const genreReducer = (state = initialState,action) =>{
             switch(action.type){
-                case customerTypes.FETCH_CUSTOMER_REQUEST:
+                case genreTypes.FETCH_GENRE_REQUEST:
                     return{
                         ...state,
                         loading: true
                     }
-                  case customerTypes.FETCH_CUSTOMER_SUCCESS:
+                  case genreTypes.FETCH_GENRE_SUCCESS:
                       return {
                           ...state,
                           loading: false,
-                          customers: action.payload,
+                          genres: action.payload,
                           error: ''
                       }
-                    case customerTypes.FETCH_CUSTOMER_FAILURE:
+                    case genreTypes.FETCH_GENRE_FAILURE:
                         return{
                             ...state,
                             loading: false,
-                            customers:[],
+                            genres:[],
                             error: action.payload
                         }
-                      case customerTypes.POST_CUSTOMER_REQUEST:
+                      case genreTypes.POST_GENRE_REQUEST:
                           return{
                               ...state,
                               loading:true
                           }
-                       case customerTypes.POST_CUSTOMER_SUCCESS:
+                       case genreTypes.POST_GENRE_SUCCESS:
                            return{
                               ...state,
                               loading:false,
-                              customerSuccess:action.payload
+                              postedGenre:action.payload
                              
                            } 
-                         case customerTypes.POST_CUSTOMER_FAILURE:
+                         case genreTypes.POST_GENRE_FAILURE:
                              return{
                                  ...state,
                                  loading:false,
-                                 customers: [],
+                                 genres: [],
                                  error: action.payload
                              }
-                             case customerTypes.EDIT_CUSTOMER_REQUEST:
+
+                             case genreTypes.EDIT_GENRE_REQUEST:
                                 return{
                                     ...state,
                                     loading:true
                                 }
-                             case customerTypes.EDIT_CUSTOMER_SUCCESS:
+                             case genreTypes.EDIT_GENRE_SUCCESS:
                                  return{
                                     ...state,
                                     loading:false,
                                     editCustomer:action.payload
                                    
                                  } 
-                               case customerTypes.EDIT_CUSTOMER_FAILURE:
+                               case genreTypes.EDIT_GENRE_FAILURE:
                                    return{
                                        ...state,
                                        loading:false,
                                        customers: [],
                                        error: action.payload
                                    }
-                                case customerTypes.DELETE_CUSTOMER_REQUEST:
+                                case genreTypes.DELETE_GENRE_REQUEST:
                                     return{
                                         ...state,
                                         loading: true,
                                     }
-                                    case customerTypes.DELETE_CUSTOMER_SUCCESS:
+                                    case genreTypes.DELETE_GENRE_SUCCESS:
                                         return{
                                             ...state,
                                             loading: false,
                                             deletedCustomer: action.payload
                                         }
-                                      case customerTypes.DELETE_CUSTOMER_FAILURE:
+                                      case genreTypes.DELETE_GENRE_FAILURE:
                                           return{
                                               ...state,
                                               loading: false,
                                               error: action.payload
                                           }
-                                       case customerTypes.GETSINGLE_CUSTOMER_REQUEST:
+                                       case genreTypes.GETSINGLE_GENRE_REQUEST:
                                            return{
                                                ...state,
                                                loading:true
                                            }  
-                                           case customerTypes.GETSINGLE_CUSTOMER_SUCCESS:
+                                           case genreTypes.GETSINGLE_GENRE_SUCCESS:
                                                return{
                                                    ...state,
                                                    loading:false,
-                                                   singleCustomer: action.payload
+                                                   singleGenre: action.payload
                                                }
-                                               case customerTypes.GETSINGLE_CUSTOMER_FAILURE:
+                                               case genreTypes.GETSINGLE_GENRE_FAILURE:
                                                    return{
                                                        ...state,
                                                        loading:false,
@@ -108,4 +109,4 @@ const customerReducer = (state = initialState,action) =>{
             }
 }
   
-export default customerReducer
+export default genreReducer

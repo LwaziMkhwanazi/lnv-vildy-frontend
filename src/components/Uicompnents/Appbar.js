@@ -2,12 +2,10 @@ import React from 'react'
 import AppBar from "@material-ui/core/AppBar"
 import Toolbar from "@material-ui/core/Toolbar"
 import Grid from "@material-ui/core/Grid"
-import { Badge, IconButton, InputBase } from '@material-ui/core'
+import { Badge, IconButton } from '@material-ui/core'
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
-import SearchIcon from '@material-ui/icons/Search';
-import MenuIcon from '@material-ui/icons/Menu';
 import {makeStyles} from "@material-ui/styles";
 
 const useStyles = makeStyles( theme => ({
@@ -34,16 +32,6 @@ function Appbar() {
         <AppBar position = "static" className = {classes.appBar}>
             <Toolbar>
                 <Grid container alignItems = "center">
-                    <Grid item >
-                        <IconButton>
-                            <MenuIcon fontSize = "small" />
-                        </IconButton>
-                        <InputBase
-                            className = {classes.searchInput}
-                            placeholder = "Search"
-                             startAdornment = {<SearchIcon fontSize = "small" />}
-                        />
-                    </Grid>
                     <Grid item sm></Grid>
                     <Grid item  >
                         <IconButton>

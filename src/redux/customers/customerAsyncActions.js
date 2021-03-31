@@ -65,6 +65,85 @@ const editCustomerFailure = error => {
     }
 }
 
+//DELETE
+const deleteCustomerRequest = () =>{
+    return{
+        type: customerTypes.DELETE_CUSTOMER_REQUEST
+    }
+}
+
+const deleteCustomerSuccess = customers =>{
+    return{
+        type: customerTypes.DELETE_CUSTOMER_SUCCESS,
+        payload: customers
+    }
+}
+
+const deleteCustomerFailure = error => {
+    return{
+        type: customerTypes.DELETE_CUSTOMER_FAILURE,
+        payload: error
+    }
+}
+
+//GET SIngle Customer
+const getSingleCustomerRequest = () =>{
+    return{
+        type: customerTypes.GETSINGLE_CUSTOMER_REQUEST
+    }
+}
+
+const getSingleCustomerSuccess = customers =>{
+    return{
+        type: customerTypes.GETSINGLE_CUSTOMER_SUCCESS,
+        payload: customers
+    }
+}
+
+const getSingleCustomerFailure = error => {
+    return{
+        type: customerTypes.GETSINGLE_CUSTOMER_FAILURE,
+        payload: error
+    }
+}
+
+
+export const getSingleCustomer = customer =>{
+    return dispatch =>{
+        dispatch(getSingleCustomerRequest())
+        axiosInstance.get(`/api/customers/customer${customer.phone}`)
+            .then( response =>{
+                const customer = response.data
+                dispatch(getSingleCustomerSuccess(customer))
+            })
+            .catch( error => {
+                const errorMsg = error.message
+                dispatch(getSingleCustomerFailure(errorMsg))
+            })
+    }
+}
+
+
+
+
+export const deleteCustomer = customer =>{
+    return dispatch =>{
+        dispatch(deleteCustomerRequest())
+        axiosInstance.delete(`/api/customers/${customer._id}`)
+                    .then( response =>{
+                        const customer = response.data
+                        dispatch(deleteCustomerSuccess(customer))
+                    })
+                    .catch( error =>{
+                        const errorMsg = error.message
+                        dispatch(deleteCustomerFailure(errorMsg))
+                    } )
+    }
+}
+
+
+
+
 export const editCustomer = (customer) =>{
     return dispatch =>{
         dispatch(editCustomerRequest())
@@ -115,7 +194,7 @@ export const postCustomer = (customer) =>{
             axiosIntance.get('/api/customers')
             .then( response => {
                 const customers = response.data
-                dispatch(fetchCustomerSuccess(customers))
+                    dispatch(fetchCustomerSuccess(customers))
             })
             .catch(error =>{
                 const errorMsg = error.message

@@ -13,6 +13,9 @@ const useStyles = makeStyles( theme =>({
             margin: theme.spacing(1)
         } 
      },
+     buttons:{
+         margin: theme.spacing(1)
+     }
   
 }))
 
@@ -81,8 +84,8 @@ function CustomersForm({setOpenPopup,postCustomer}) {
                                         label = "Phone Number"
 
                                     />
-                                    <Button style = {{marginRight:'8px',marginLeft:'8px'}} variant = "contained" type = "reset">Reset</Button>
-                                        <Button disabled = {!formik.isValid} color = "primary" type = "submit" variant = "contained" >Submit</Button>
+                                    <Button className = {classes.buttons} style = {{marginRight:'8px',marginLeft:'8px'}} variant = "contained" type = "reset">Reset</Button>
+                                        <Button className = {classes.buttons} disabled = {!formik.isValid} color = "primary" type = "submit" variant = "contained" >Submit</Button>
                                   
                                 </Grid>
                             </Grid>
