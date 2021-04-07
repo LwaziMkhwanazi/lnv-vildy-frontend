@@ -7,6 +7,7 @@ import CustomerPage from '../Pages/Customer/CustomerPage';
 import GenrePage from "../Pages/Genre/GenrePage";
 import {Route,Switch,BrowserRouter} from "react-router-dom"
 import Layout from "../components/Layout";
+import MoviePage from "../Pages/Movies/MoviePage";
 
 
 const theme = createMuiTheme({
@@ -47,6 +48,9 @@ function App() {
                 </Route>
                 <Route path = "/customers">
                     <CustomerPage/>
+                </Route>
+                <Route path = "/movies">
+                    <MoviePage/>
                 </Route>
             </Switch>
           </Layout>  

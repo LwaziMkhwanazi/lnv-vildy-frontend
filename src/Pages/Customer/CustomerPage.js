@@ -2,7 +2,7 @@ import React,{useEffect,useState} from 'react'
 import PageHeader from '../../components/Uicompnents/PageHeader'
 import AddIcon from '@material-ui/icons/Add';
 import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone';
-import {makeStyles, Paper, TableBody, TableRow,TableCell, Button,Grid} from '@material-ui/core';
+import {makeStyles, Paper, TableBody, TableRow,TableCell, Button,Grid,Container} from '@material-ui/core';
 import {connect} from "react-redux"
 import { fetchCustomer,deleteCustomer} from '../../redux/customers/customerAsyncActions';
 import useTable from '../../components/Table/useTable';
@@ -16,10 +16,10 @@ import SearchEditDeleteForm from './SearchEditDeleteForm';
 
 
 const useStyles = makeStyles( theme =>({
-    paper:{
-        margin: '20px auto',
+    container:{
+        marginTop:theme.spacing(3),
         padding:'15px 30px',
-        maxWidth:'1100px'
+    
     },
     button:{
         backgroundColor:'#fff' ,
@@ -63,12 +63,13 @@ const editCustomer = (customer) =>{
 }
 
     return (
-        <div>
+           <>
             <PageHeader icon = {<PeopleOutlineTwoToneIcon fontSize = "large" />} 
             title = "Customer Page" 
             subtitle = "Add Delete Edit and Display Customers Details" />
-            <Paper className = {classes.paper} >
-                    <Grid container  >
+            <Container>
+            <Paper>
+                    <Grid container className = {classes.container}  >
                        <Grid item xs = {10}>
                         <SearchEditDeleteForm   recordForEdit = {recordForEdit} setRecordForEdit = {setRecordForEdit} />
                        </Grid>
@@ -119,7 +120,8 @@ const editCustomer = (customer) =>{
              />
             </PopUp>
            
-        </div>
+        </Container>
+       </> 
     )
 }
 

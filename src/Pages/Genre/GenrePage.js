@@ -2,7 +2,7 @@ import React,{useEffect,useState} from 'react'
 import PageHeader from '../../components/Uicompnents/PageHeader'
 
 import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone';
-import {makeStyles, Paper, TableBody, TableRow,TableCell} from '@material-ui/core';
+import {makeStyles, Paper, TableBody, TableRow,TableCell,Container} from '@material-ui/core';
 import {connect} from "react-redux"
 import { fetchGenres,postGenre,editGenre,deleteGenre} from '../../redux/genre/genreAyncActions';
 import useTable from '../../components/Table/useTable';
@@ -15,16 +15,16 @@ import GenreForm from "./GenreForm"
 
 
 const useStyles = makeStyles( theme =>({
-    paper:{
-        margin: '20px auto',
+    container:{
+        marginTop:theme.spacing(2),
         padding:'15px 30px',
-        maxWidth:'1100px'
+    
     },
    
     progress:{
         position:'absolute',
         top:'21rem',
-        right: '44rem'
+        right: '36rem'
     }
   
 }))
@@ -48,9 +48,11 @@ function GenrePage({genres,getGenres,postGenre,deleteGenre}) {
   
 const {TblContainer,TblHeader,TblPagination,recordsAfterPagingAndSorting} = useTable(records,headCells)
 
-useEffect(()=>{
-    getGenres()
-},[getGenres,postedGenre,editedGenre,deletedGenre])
+
+   
+    useEffect(()=>{
+        getGenres()
+    },[getGenres,editedGenre,postedGenre,deletedGenre])
 
 
  
@@ -59,7 +61,8 @@ useEffect(()=>{
              <PageHeader icon = {<PeopleOutlineTwoToneIcon fontSize = "large" />}
             title = "Genre Page" 
             subtitle = "Add Delete Edit and Display Genre Details" />
-            <Paper className = {classes.paper} >
+            <Container className = {classes.container}>
+            <Paper >
                      <GenreForm recordForEdit = {recordForEdit } setRecordForEdit = {setRecordForEdit} />
                    <TblContainer>
                       <TblHeader/>
@@ -92,6 +95,7 @@ useEffect(()=>{
                  <TblPagination/>
                   {genres && genres.loading? <CircularProgress className = {classes.progress} size = "2rem" /> : null} 
             </Paper>
+            </Container>
             <PopUp
             title = "Genre Form"
              openPopup = {openPopup}

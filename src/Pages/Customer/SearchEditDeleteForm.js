@@ -12,6 +12,7 @@ import ClearAllIcon from '@material-ui/icons/ClearAll';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {editCustomer,deleteCustomer,getSingleCustomer} from "../../redux/customers/customerAsyncActions"
 import {connect} from "react-redux"
+
 const useStyles = makeStyles( theme => ({
     searchButton:{
         backgroundColor:theme.palette.primary.main ,
@@ -114,7 +115,7 @@ function SearchEditDeleteForm({recordForEdit,setRecordForEdit,customers,
                 <Grid  item  >
                   <Grid container>
                   <Grid item>
-                     <ActionButton variant = "outlined" type = "reset" onClick = {()=>setRecordForEdit(null)} >
+                        <ActionButton variant = "outlined" type = "reset" onClick = {()=>setRecordForEdit(null)} >
                          <ClearAllIcon color = "primary" />
                          </ActionButton>
                     </Grid>

@@ -39,6 +39,7 @@ function GenreForm({recordForEdit,setRecordForEdit,postGenre,editGenre,deleteGen
 
    const onSubmit = (values) => {
         postGenre(values)
+        setRecordForEdit(null)
    }
 
     const classes = useStyles()

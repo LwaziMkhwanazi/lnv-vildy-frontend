@@ -155,14 +155,15 @@ export const postGenre = (genre) =>{
  export const fetchGenres = () => {
     return dispatch =>{
             dispatch(fetchGenreRequest())
-             axiosInstance.get('/api/genres')
-            .then( response => {
-                const genre = response.data
-                    dispatch(fetchGenreSuccess(genre))
-            })
+                axiosInstance.get('/api/genres')
+                .then( response => {
+                    const genre = response.data
+                        dispatch(fetchGenreSuccess(genre))
+                })
             .catch(error =>{
                 const errorMsg = error.message
                 dispatch(fetchGenreFailure(errorMsg))
             })
+     
     }
 }

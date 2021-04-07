@@ -4,6 +4,7 @@ import {Grid,makeStyles,Button} from "@material-ui/core"
 import FormikControl from '../../components/Form/FormikControl';
 import {postCustomer} from "../../redux/customers/customerAsyncActions"
 import {connect} from "react-redux"
+
 import * as Yup from "yup"
 
 const useStyles = makeStyles( theme =>({
@@ -84,8 +85,10 @@ function CustomersForm({setOpenPopup,postCustomer}) {
                                         label = "Phone Number"
 
                                     />
-                                    <Button className = {classes.buttons} style = {{marginRight:'8px',marginLeft:'8px'}} variant = "contained" type = "reset">Reset</Button>
-                                        <Button className = {classes.buttons} disabled = {!formik.isValid} color = "primary" type = "submit" variant = "contained" >Submit</Button>
+                                    <Button className = {classes.buttons} style = {{marginRight:'8px',marginLeft:'8px'}}
+                                     variant = "contained" type = "reset">Reset</Button>
+                                        <Button className = {classes.buttons} disabled = {!formik.isValid} 
+                                        color = "primary" type = "submit" variant = "contained" >Submit</Button>
                                   
                                 </Grid>
                             </Grid>
