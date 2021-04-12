@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -8,6 +8,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {deleteMovie} from "../../redux/movies/movieAyncActions";
 import EditIcon from '@material-ui/icons/Edit';
 import {useDispatch} from "react-redux"
+import MovieForm from "./MovieForm";
+import PopUp from "../../components/MuiReusableComponents/PopUp"
+
 const useStyles = makeStyles( theme =>({
     blueColor:{
         color:theme.palette.common.white,
@@ -15,9 +18,26 @@ const useStyles = makeStyles( theme =>({
     }
 }))
 
-function MovieCard({genreName,title,dailyRentalRate,id, numberInStock }) {
+function MovieCard({genreName,title,dailyRentalRate,id,genreId, numberInStock }) {
   const classes = useStyles()
     const dispatch = useDispatch()
+    const [openPopup,setOpenPopup] = useState(false)
+    const [recordForEdit,setRecordForEdit] = useState(null)
+
+const handleEdit = () =>{
+   const record = {
+    genreId:'',
+    movieId:id,
+    title: title,
+    dailyRentalRate: dailyRentalRate,
+    numberInStock:numberInStock,
+  
+} 
+ setRecordForEdit(record)
+ setOpenPopup(true)
+
+}
+
     return (
         <div>
           <Card>
@@ -45,11 +65,21 @@ function MovieCard({genreName,title,dailyRentalRate,id, numberInStock }) {
                   </Typography>
               </CardContent>
               <CardActions>
-                  <IconButton>
+                  <IconButton onClick = {handleEdit}>
                         <EditIcon/>
                   </IconButton>
               </CardActions>
           </Card>
+          <PopUp
+            title = "Edit Movie Form"
+             openPopup = {openPopup}
+             setOpenPopup = {setOpenPopup}
+            >
+             <MovieForm 
+                recordForEdit = {recordForEdit}
+             setOpenPopup = {setOpenPopup}
+             />
+            </PopUp>
         </div>
     )
 }

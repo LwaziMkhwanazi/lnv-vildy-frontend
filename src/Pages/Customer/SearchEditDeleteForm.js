@@ -79,6 +79,7 @@ function SearchEditDeleteForm({recordForEdit,setRecordForEdit,customers,
                     control = "MuiInput"
                         name = "phone"
                      fullWidth
+                     size = "small"
                     variant = "standard"
                     label = "Enter phone number"
                     InputProps={{
@@ -94,6 +95,7 @@ function SearchEditDeleteForm({recordForEdit,setRecordForEdit,customers,
                  <FormikControl
                         control = "MuiInput"
                         name = "name"
+                        size = "small"
                          fullWidth
                     variant = "standard"
                     label = "Name"
@@ -105,6 +107,7 @@ function SearchEditDeleteForm({recordForEdit,setRecordForEdit,customers,
                     control = "MuiSelect"
                     name = "isGold"
                      fullWidth
+                     size = "small"
                     variant = "standard"
                     label = "Is Gold"
                     error = {formik.errors.isGold}

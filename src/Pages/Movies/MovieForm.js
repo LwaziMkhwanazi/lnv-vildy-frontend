@@ -4,7 +4,7 @@ import {Grid,makeStyles,Button, Container} from "@material-ui/core"
 import FormikControl from "../../components/Form/FormikControl"
 import {connect} from "react-redux"
 import {fetchGenres} from "../../redux/genre/genreAyncActions"
-import {postMovie} from "../../redux/movies/movieAyncActions"
+import {postMovie,editMovie} from "../../redux/movies/movieAyncActions"
 import CircularProgress from '@material-ui/core/CircularProgress';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import * as Yup from "yup"
@@ -21,15 +21,17 @@ import * as Yup from "yup"
         right: '37rem'
     },
     buttons:{
-      margin: theme.spacing(1)
+      margin: theme.spacing(1),
+      textTransform:'none'
     }
  }))
 
-function MovieForm({genres,getGenres,setOpenPopup,postMovie}) {
+function MovieForm({genres,getGenres,postMovie,recordForEdit,editSingleMovie,setOpenPopup}) {
     const genreData = genres && genres.genres && genres.genres 
     useEffect(()=>{
         getGenres()
     },[getGenres])
+   
    
     
     const classes = useStyles()
@@ -42,21 +44,31 @@ function MovieForm({genres,getGenres,setOpenPopup,postMovie}) {
 
      
 const handleSubmit = values =>{
-    console.log(values)
-  postMovie(values)
-//   setOpenPopup(false)
+    
+    if(recordForEdit != null){
+        editSingleMovie(values)
+        setOpenPopup(false)
+    }else{
+        postMovie(values)
+        setOpenPopup(false)
+    }
+
 }
 
+
+
 const validationSchema = Yup.object({
-    title:Yup.string().required('Title is Required').min(3).max(50),
+    title:Yup.string().required('Title is Required').min(3).max(225),
     numberInStock: Yup.string().matches(/^[0-9]+$/, "Must be only digits").min(1,'Must be greater than 1').max(200,'Must be less than 200').required('Number In Stock is Required'),
     dailyRentalRate: Yup.string().matches(/^[0-9]+$/, "Must be only digits").min(1,'Must be greater than 1').max(200,'Must be less than 200').required('Daily Rate is Required'),
+    genreId: Yup.string().required('Genre is Requred')
    
 })
 
     const form = (
           <Formik
-          initialValues = {initialValues}
+          initialValues = { recordForEdit || initialValues}
+          enableReinitialize
           onSubmit = {handleSubmit}
           validationSchema = {validationSchema}
           >
@@ -99,7 +111,7 @@ const validationSchema = Yup.object({
                                     <Button className = {classes.buttons} style = {{marginRight:'8px',marginLeft:'8px'}}
                                      variant = "contained" type = "reset">Reset</Button>
                                         <Button className = {classes.buttons} disabled = {!formik.isValid}
-                                        color = "primary" type = "submit" variant = "contained" >Submit</Button>
+                                        color = "primary" type = "submit" variant = "contained" >{recordForEdit? "Save Changes":"Submit"}</Button>
                                       
                                 </Grid>
                             </Grid> 
@@ -127,7 +139,8 @@ const mapStateToProps = state =>{
 const mapDispatchToProps = dispatch =>{
     return{
         getGenres:() => dispatch(fetchGenres()),
-        postMovie:(movie) => dispatch(postMovie(movie))
+        postMovie:(movie) => dispatch(postMovie(movie)),
+        editSingleMovie:(movie) => dispatch(editMovie(movie))
         
     }
 }

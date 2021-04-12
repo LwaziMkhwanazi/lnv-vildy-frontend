@@ -12,17 +12,15 @@ const useStyles = makeStyles(theme =>({
     button:{
         backgroundColor:'#fff'
     },
-    container:{
-        marginTop:theme.spacing(2),
-       
-    },
+    
     paper:{
         padding: theme.spacing(2),
         backgroundColor: theme.palette.background.default
     },
-    progeess:{
+    progress:{
         position:'absolute',
-        margin:'auto'
+        top:'21rem',
+        right: '37rem'
     }
 }))
 
@@ -32,15 +30,16 @@ function MoviePage() {
     const movieRecords = movies && movies.movies && movies.movies
     const postedData = movies && movies.postMovieSuccess
     const deletedMovie = movies && movies.deletedMovie
-    console.log(movieRecords)
+    const editedMovie = movies && movies.editedMovie
+    
     const dispatch = useDispatch()
-
+       
     const [openPopup,setOpenPopup] = useState(false)
    const classes = useStyles()
    
       useEffect(()=>{
         dispatch(fetchMovies())
-      },[dispatch,postedData,deletedMovie])
+      },[dispatch,postedData,deletedMovie,editedMovie])
   
      const grid = (
           <Grid container spacing = {2}>
@@ -48,7 +47,7 @@ function MoviePage() {
                                  movieRecords.map( movie =>(
                                <Grid item key = {movie._id} xs = {12} md = {6} lg = {4} >
                                     <MovieCard id = {movie._id} title = {movie.title}
-                                     genreName = {movie.genre.name} dailyRentalRate = {movie.dailyRentalRate} 
+                                      genreId = {movie.genre._id} genreName = {movie.genre.name} dailyRentalRate = {movie.dailyRentalRate} 
                                      numberInStock = {movie.numberInStock} />
                                </Grid>
                            )) 
@@ -63,15 +62,15 @@ function MoviePage() {
             subtitle = "Add Delete Edit and Display Movies" />
             <Button onClick = {()=> setOpenPopup(true)} className = {classes.button} fullWidth variant = "outlined" color = "primary">Add Movie</Button>
 
-            <Container className = {classes.container} >
+            <Container >
                 <Paper className = {classes.paper}>
                       {
-                        movies.loading? <CircularProgress className = {classes.progeess} />: grid
+                        movies.loading? <CircularProgress className = {classes.progress} />: grid
                       }
                 </Paper>
             </Container>
             <PopUp
-            title = "Movie Form"
+            title = "Add Movie Form"
              openPopup = {openPopup}
              setOpenPopup = {setOpenPopup}
             >

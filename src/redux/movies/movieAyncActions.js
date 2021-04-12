@@ -60,7 +60,6 @@ const postMovieFailure = error => {
 }
 
 export const postMovie = movie =>{
-    console.log(movie)
     return dispatch =>{
          dispatch(postMovieRequest())
         axiosInstance.post('/api/movies',
@@ -115,4 +114,47 @@ const deleteMovieFailure = error => {
 
 
     }
+}
+
+const editMovieRequest = () =>{
+    return{
+        type: movieTypes.EDIT_MOVIE_REQUEST
+    }
+}
+
+const editMovieSuccess = movie =>{
+    return{
+        type: movieTypes.EDIT_MOVIE_SUCCESS,
+        payload: movie
+    }
+}
+
+const editMovieFailure = error => {
+    return{
+        type: movieTypes.EDIT_MOVIE_FAILURE,
+        payload: error
+    }
+}
+ 
+export const editMovie = movie =>{
+    console.log(movie)
+
+        return dispatch =>{
+            dispatch(editMovieRequest())
+            axiosInstance.put(`/api/movies/${movie.movieId}`,{
+                title:movie.title,
+                genreId:movie.genreId,
+                numberInStock: movie.numberInStock,
+                dailyRentalRate:movie.dailyRentalRate
+            })
+            .then( response =>{
+                const movie = response.data
+                dispatch(editMovieSuccess(movie))
+            })
+            .catch( error =>{
+                const errorMsg = error.massage
+                dispatch(editMovieFailure(errorMsg))
+            })
+
+        }
 }
