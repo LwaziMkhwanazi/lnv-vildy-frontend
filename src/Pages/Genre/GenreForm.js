@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import {Form,Formik} from "formik"
 import {Grid,makeStyles} from "@material-ui/core"
 import FormikControl from '../../components/Form/FormikControl';
@@ -7,7 +7,7 @@ import ActionButton from "../../components/MuiReusableComponents/ActionButton"
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
-import {editGenre,postGenre,deleteGenre} from "../../redux/genre/genreAyncActions"
+import {editGenre,postGenre,deleteGenre,fetchGenres} from "../../redux/genre/genreAyncActions"
 import * as Yup from "yup" 
 import {connect} from "react-redux"
 
@@ -23,8 +23,8 @@ const useStyles = makeStyles( theme =>({
 
 
 
-function GenreForm({recordForEdit,setRecordForEdit,postGenre,editGenre,deleteGenre}) {
-
+function GenreForm({recordForEdit,setRecordForEdit,postGenre,editGenre,deleteGenre,getGenres}) {
+        console.log('Records for edit', recordForEdit)
 
     let initialValues = {
         name: '',
@@ -33,19 +33,38 @@ function GenreForm({recordForEdit,setRecordForEdit,postGenre,editGenre,deleteGen
        
     }
     const validationSchema = Yup.object({
-        name: Yup.string().min(5).max(50),
+        name: Yup.string().min(3).max(50).required('Genre is required'),
       
     })
 
    const onSubmit = (values) => {
-        postGenre(values)
-        setRecordForEdit(null)
+        if(recordForEdit != null){
+            editGenre(recordForEdit)
+            setRecordForEdit(null)
+        }else{
+            postGenre(values)
+            setRecordForEdit(null)
+        }
+       
    }
 
     const classes = useStyles()
 
-   
+   useEffect(()=>{
+    getGenres()
+   },[getGenres,postGenre,editGenre])
 
+   const handleDelete = values =>{
+     deleteGenre(values)
+    setRecordForEdit(null)
+}
+
+
+const handleAdd = values =>{
+    postGenre(values)
+    setRecordForEdit(null)
+    values.name = ""
+}
     return (
         <Formik
             initialValues = { recordForEdit || initialValues }
@@ -76,17 +95,17 @@ function GenreForm({recordForEdit,setRecordForEdit,postGenre,editGenre,deleteGen
                                 </Grid>
                                     
                                 <Grid item>
-                                <ActionButton color = "primary" onClick = {()=>editGenre(formik.values)} >
+                                <ActionButton color = "primary" type = "submit" >
                                     <SaveIcon/>
                                     </ActionButton>
                                 </Grid>
                                 <Grid item>
-                                <ActionButton onClick = {()=>deleteGenre(formik.values)}  color = "secondary" type = "reset" >
+                                <ActionButton onClick = {()=>handleDelete(formik.values)}  color = "secondary" type = "reset" >
                                     <DeleteIcon/>
                                     </ActionButton>
                                 </Grid>
                                 <Grid item>
-                                <ActionButton variant = "outlined"   type = "submit" >
+                                <ActionButton variant = "outlined" disabled = {!formik.isValid}  onClick = {()=>handleAdd(formik.values)} >
                                     <AddIcon color = "primary"/>
                                     </ActionButton>
                                 </Grid>
@@ -108,7 +127,8 @@ const mapDispatchedToProps = dispatch => {
     return{
         postGenre:(genre)=> dispatch(postGenre(genre)),
         deleteGenre: (genre) => dispatch(deleteGenre(genre)),
-        editGenre:(genre) => dispatch(editGenre(genre))
+        editGenre:(genre) => dispatch(editGenre(genre)),
+        getGenres:()=>dispatch(fetchGenres())
     }
 }
 

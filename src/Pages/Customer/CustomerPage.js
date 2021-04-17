@@ -113,6 +113,7 @@ const editCustomer = (customer) =>{
             title = "Customer Form"
              openPopup = {openPopup}
              setOpenPopup = {setOpenPopup}
+             width = "md"
             >
              <CustomersForm 
               

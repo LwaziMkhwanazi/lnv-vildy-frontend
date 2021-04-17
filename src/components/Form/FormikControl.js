@@ -5,6 +5,7 @@ import MuiRadio from "./FormControls/MuiRadio"
 import Muicheckbox from './FormControls/MuiCheckbox'
 import Muiselect from './FormControls/Muiselect'
 import MuiObjectSelect from "./FormControls/MuiObjectSelect"
+import MuiTickBox from "./FormControls/MuiTickBox"
 
 //missing radio buttons
 function FormikControl({control,...rest}) {
@@ -15,6 +16,8 @@ function FormikControl({control,...rest}) {
             case 'MuiCheckbox' : return <Muicheckbox {...rest} />
             case 'MuiSelect' : return <Muiselect {...rest} />
             case 'MuiObjectSelect' : return <MuiObjectSelect {...rest} />
+            case 'MuiTickBox' : return <MuiTickBox {...rest} />
+
          
             default:
                 return null

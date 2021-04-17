@@ -73,6 +73,7 @@ function MoviePage() {
             title = "Add Movie Form"
              openPopup = {openPopup}
              setOpenPopup = {setOpenPopup}
+             width = "md"
             >
              <MovieForm 
               postMovie = {postMovie}

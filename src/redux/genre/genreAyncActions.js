@@ -93,7 +93,6 @@ const deleteGenreFailure = error => {
 export const deleteGenre = genre =>{
  
     return dispatch =>{
-        console.log(genre)
         dispatch(deleteGenreRequest())
         axiosInstance.delete(`/api/genres/${genre._id}`)
                     .then( response =>{
@@ -111,6 +110,7 @@ export const deleteGenre = genre =>{
 
 
 export const editGenre = (genre) =>{
+    console.log(genre)
     return dispatch =>{
         dispatch(editGenreRequest())
         axiosInstance.put(`/api/genres/${genre._id}`,{

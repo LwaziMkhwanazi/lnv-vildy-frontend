@@ -14,10 +14,10 @@ const useStyles = makeStyles( theme => ({
     }
 }))
 
-function PopUp({title,children,openPopup,setOpenPopup}) {
+function PopUp({title,children,openPopup,setOpenPopup,width}) {
     const classes = useStyles()
     return (
-        <Dialog open = {openPopup} maxWidth = "md" classes = {{paper:classes.dialogWrapper}} >
+        <Dialog open = {openPopup} maxWidth = {width} classes = {{paper:classes.dialogWrapper}} >
             <DialogTitle className = {classes.DialogTitle} >
                <div style = {{display:'flex'}}> 
                <Typography variant = "h6" component = "div" style = {{flexGrow:1}}>

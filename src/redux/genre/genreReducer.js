@@ -60,14 +60,14 @@ const genreReducer = (state = initialState,action) =>{
                                  return{
                                     ...state,
                                     loading:false,
-                                    editCustomer:action.payload
+                                    editGenre:action.payload
                                    
                                  } 
                                case genreTypes.EDIT_GENRE_FAILURE:
                                    return{
                                        ...state,
                                        loading:false,
-                                       customers: [],
+                                       genres: [],
                                        error: action.payload
                                    }
                                 case genreTypes.DELETE_GENRE_REQUEST:
@@ -79,7 +79,7 @@ const genreReducer = (state = initialState,action) =>{
                                         return{
                                             ...state,
                                             loading: false,
-                                            deletedCustomer: action.payload
+                                            deletedGenre: action.payload
                                         }
                                       case genreTypes.DELETE_GENRE_FAILURE:
                                           return{

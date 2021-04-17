@@ -3,14 +3,15 @@ import PageHeader from '../../components/Uicompnents/PageHeader'
 
 import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone';
 import {makeStyles, Paper, TableBody, TableRow,TableCell,Container} from '@material-ui/core';
-import {connect} from "react-redux"
-import { fetchGenres,postGenre,editGenre,deleteGenre} from '../../redux/genre/genreAyncActions';
+import { fetchGenres,deleteGenre} from '../../redux/genre/genreAyncActions';
 import useTable from '../../components/Table/useTable';
 import PopUp from '../../components/MuiReusableComponents/PopUp';
 import ActionButton from '../../components/MuiReusableComponents/ActionButton';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import {useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import GenreForm from "./GenreForm"
 
 
@@ -37,24 +38,33 @@ const headCells = [
 ]
 
  
-function GenrePage({genres,getGenres,postGenre,deleteGenre}) {
-   const records =  genres && genres.genres
+function GenrePage() {
+  
     const classes = useStyles()
     const [openPopup,setOpenPopup] = useState(false)
     const [recordForEdit,setRecordForEdit] = useState(null)
-    const postedGenre = genres.postedGenre
-    const editedGenre = genres.editedGenre
-    const deletedGenre = genres.deletedGenre
+   
   
+const dispatch = useDispatch()
+const genres = useSelector(state => state.genres)
+const postedGenre = genres.postedGenre
+const editedGenre = genres.editedGenre
+const deletedGenre = genres.deletedGenre
+const records =  genres && genres.genres
+
+
+console.log('Edited Genre',editedGenre)
+
 const {TblContainer,TblHeader,TblPagination,recordsAfterPagingAndSorting} = useTable(records,headCells)
-
-
    
     useEffect(()=>{
-        getGenres()
-    },[getGenres,editedGenre,postedGenre,deletedGenre])
+        dispatch(fetchGenres())
+    },[dispatch,editedGenre,postedGenre,deletedGenre])
 
-
+const handleDelete = values =>{
+    dispatch(deleteGenre(values))
+    setRecordForEdit(null)
+}
  
     return (
         <div>
@@ -83,7 +93,7 @@ const {TblContainer,TblHeader,TblPagination,recordsAfterPagingAndSorting} = useT
                                                 <ActionButton
                                                     color = "secondary"
                                                 >
-                                                <DeleteIcon onClick = {()=> deleteGenre(genre)} fontSize = "small"/>
+                                                <DeleteIcon onClick = {()=>handleDelete(genre)} fontSize = "small"/>
                                                 </ActionButton>
                                                    
                                             </TableCell>
@@ -102,7 +112,7 @@ const {TblContainer,TblHeader,TblPagination,recordsAfterPagingAndSorting} = useT
              setOpenPopup = {setOpenPopup}
             >
              <GenreForm 
-              
+             recordForEdit = {recordForEdit}
              setOpenPopup = {setOpenPopup}
              />
             </PopUp>  
@@ -111,20 +121,6 @@ const {TblContainer,TblHeader,TblPagination,recordsAfterPagingAndSorting} = useT
     )
 }
 
-const mapStateToProps = state => {
-        return{
-          
-            genres: state.genres
-        }
-}
-const mapDispatchToProps = dispatch => {
-    return{
-        getGenres: ()=> dispatch(fetchGenres()),
-        deleteGenre: (genre) => dispatch(deleteGenre(genre)),
-        editGenre:(genre) => dispatch(editGenre(genre)),
-        postGenre:(genre) => dispatch(postGenre(genre))
-    
-    }
-}
 
-export default connect(mapStateToProps,mapDispatchToProps)(GenrePage)
+
+export default GenrePage

@@ -28,7 +28,7 @@ function Muicheckbox({name,label,options,...rest}) {
                                         control = {
                                              <Checkbox
                                             color = "primary"
-                                     id = {option.value} 
+                                        id = {option.value} 
                                                 {...field}
                                         value = {option.value} 
                                         checked = {field.value.includes(option.value)}

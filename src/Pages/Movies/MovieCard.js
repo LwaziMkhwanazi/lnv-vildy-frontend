@@ -74,6 +74,7 @@ const handleEdit = () =>{
             title = "Edit Movie Form"
              openPopup = {openPopup}
              setOpenPopup = {setOpenPopup}
+             width = "md"
             >
              <MovieForm 
                 recordForEdit = {recordForEdit}
