@@ -6,6 +6,7 @@ import { makeStyles,Button } from '@material-ui/core';
 import PopUp from "../../components/MuiReusableComponents/PopUp"
 import {useDispatch,useSelector} from "react-redux";
 import {getUsers,deleteUser} from "../../redux/users/userAysncAction"
+import CircularProgress from '@material-ui/core/CircularProgress';
 import UserForm from './UserForm';
 
 
@@ -18,6 +19,11 @@ const useStyle = makeStyles(theme =>({
     paper:{
         margin:theme.spacing(5),
         maxWidth:450,  
+    },
+    progress:{
+        position:'absolute',
+        top:'21rem',
+        right: '37rem'
     }
 }))
 function UserPage() {
@@ -40,7 +46,7 @@ const handleDelet = (id) =>{
         <div >
             <PageHeader icon = {<AccountCircleIcon fontSize = "large" />}
             title = "User Page" 
-            subtitle = "Add Delete Edit and Display Users"
+            subtitle = "Add Delete and Display Users"
             
             />
             <Button onClick = {()=> setOpenPopup(true)} className = {classes.button} fullWidth variant = "contained" color = "primary">Add User</Button>
@@ -65,6 +71,7 @@ const handleDelet = (id) =>{
             >
              <UserForm  setOpenPopup = {setOpenPopup}/>
             </PopUp>
+            {users && users.loading? <CircularProgress className = {classes.progress} size = "2rem" /> : null}
         </div>
     )
 }

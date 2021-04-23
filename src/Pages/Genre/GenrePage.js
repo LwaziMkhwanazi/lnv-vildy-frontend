@@ -1,7 +1,5 @@
 import React,{useEffect,useState} from 'react'
 import PageHeader from '../../components/Uicompnents/PageHeader'
-
-import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone';
 import {makeStyles, Paper, TableBody, TableRow,TableCell,Container} from '@material-ui/core';
 import { fetchGenres,deleteGenre} from '../../redux/genre/genreAyncActions';
 import useTable from '../../components/Table/useTable';
@@ -10,6 +8,7 @@ import ActionButton from '../../components/MuiReusableComponents/ActionButton';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { CategoryRounded } from '@material-ui/icons';
 import {useSelector} from "react-redux";
 import {useDispatch} from "react-redux";
 import GenreForm from "./GenreForm"
@@ -19,6 +18,7 @@ const useStyles = makeStyles( theme =>({
     container:{
         marginTop:theme.spacing(2),
         padding:'15px 30px',
+        maxWidth:'900px'
     
     },
    
@@ -31,7 +31,6 @@ const useStyles = makeStyles( theme =>({
 }))
 
 const headCells = [
-    {id:'id', label:'Genre Id'},
     {id:'name', label:'Genre Name'},
     {id:'actions', label:'Actions'},
    
@@ -68,7 +67,7 @@ const handleDelete = values =>{
  
     return (
         <div>
-             <PageHeader icon = {<PeopleOutlineTwoToneIcon fontSize = "large" />}
+             <PageHeader icon = {<CategoryRounded fontSize = "large" />}
             title = "Genre Page" 
             subtitle = "Add Delete Edit and Display Genre Details" />
             <Container className = {classes.container}>
@@ -80,7 +79,7 @@ const handleDelete = values =>{
                             {
                              recordsAfterPagingAndSorting().map( genre =>(
                                         <TableRow key = {genre._id}>
-                                        <TableCell size = "small"  align = "center" >{genre._id}</TableCell>
+                                      
                                             <TableCell size = "small"  align = "center" >{genre.name}</TableCell>
                                             
                                             <TableCell  size = "small" align = "center">

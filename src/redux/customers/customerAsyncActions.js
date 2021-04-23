@@ -111,7 +111,7 @@ const getSingleCustomerFailure = error => {
 export const getSingleCustomer = customer =>{
     return dispatch =>{
         dispatch(getSingleCustomerRequest())
-        axiosInstance.get(`/api/customers/customer${customer.phone}`)
+        axiosInstance.get(`/api/customers/${customer.phone}`)
             .then( response =>{
                 const customer = response.data
                 dispatch(getSingleCustomerSuccess(customer))

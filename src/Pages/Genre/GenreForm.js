@@ -14,7 +14,7 @@ import {connect} from "react-redux"
 const useStyles = makeStyles( theme =>({
     form:{
         '& .MuiFormControl-root':{
-            width:'60%',
+            width:'65%',
             margin: theme.spacing(1)
         } 
      },
