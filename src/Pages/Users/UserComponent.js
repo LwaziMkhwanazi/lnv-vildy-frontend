@@ -1,8 +1,6 @@
+import React,{useState} from 'react'
 import { Grid, Typography,Paper,makeStyles,Avatar, Button} from '@material-ui/core'
-
-import React from 'react'
-
-
+import ConfirmDialog  from "../../components/MuiReusableComponents/ConfirmDialog"
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -31,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 function UserComponent({name,email,admin,deleteUser}) {
 
+  const [confirmDialog,setConfirmDialog] = useState({isOpen:false,title:'',subTitle:''})
  
     const classes = useStyles()
     return (
@@ -65,11 +64,20 @@ function UserComponent({name,email,admin,deleteUser}) {
             </Grid>
           <Grid item xs container direction="column" justify = "center">
             <Grid item >
-                <Button onClick = {deleteUser} className = {classes.button} variant = "contained" color = "secondary">Delete</Button>
+                <Button onClick = {()=> setConfirmDialog({
+                                    isOpen:true,
+                                    title:'Are you sure you to delete this User?',
+                                    subTitle:"You can't undo this operation",
+                                    onConfirm: ()=> {deleteUser()}
+                                })}  className = {classes.button} variant = "contained" color = "secondary" >Delete</Button>
             </Grid>
           </Grid>
         </Grid>
       </Paper>
+      <ConfirmDialog
+            confirmDialog = {confirmDialog}
+            setConfirmDialog = {setConfirmDialog}
+            />
     </div>
     )
 }

@@ -137,8 +137,6 @@ const editMovieFailure = error => {
 }
  
 export const editMovie = movie =>{
-    console.log(movie)
-
         return dispatch =>{
             dispatch(editMovieRequest())
             axiosInstance.put(`/api/movies/${movie.movieId}`,{

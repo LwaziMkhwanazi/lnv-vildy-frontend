@@ -18,10 +18,11 @@ const useStyles = makeStyles( theme =>({
     }
 }
 }))
-function ActionButton({children,color,type,variant,onClick}) {
+function ActionButton({children,color,type,variant,onClick, disabled}) {
     const classes = useStyles()
     return (
         <Button
+            disabled = {disabled}
             variant = {variant}
         className = { `${classes.root} ${classes[color]}`}
         onClick = {onClick}

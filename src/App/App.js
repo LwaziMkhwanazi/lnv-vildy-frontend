@@ -10,6 +10,7 @@ import Layout from "../components/Layout";
 import MoviePage from "../Pages/Movies/MoviePage";
 import UserPage from "../Pages/Users/UserPage";
 import RentalPage from "../Pages/Rentals/RentalPage"
+import DashboardPage from "../Pages/Dashboard/DashboardPage";
 
 const theme = createMuiTheme({
   palette:{
@@ -44,6 +45,9 @@ function App() {
         <BrowserRouter>
         <Layout>
             <Switch>
+            <Route exact path = "/dashboard">
+                    <DashboardPage/>
+                </Route>
                 <Route exact path = "/genres">
                     <GenrePage/>
                 </Route>

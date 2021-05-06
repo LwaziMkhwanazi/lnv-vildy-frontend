@@ -6,7 +6,8 @@ import * as movieTypes from "./movieTypes"
     error:'',
     deletedMovie:{},
     postMovieSuccess:{},
-    editedMovie:{}
+    editedMovie:{},
+   
 }
 
 const moviesReducer = (state = initialValues,action) =>{
@@ -20,7 +21,8 @@ const moviesReducer = (state = initialValues,action) =>{
                  return{
                      ...state,
                      loading:false,
-                     movies:action.payload
+                     movies:action.payload,
+
                  }
               case movieTypes.FETCH_MOVIE_FAILURE:
                   return{
@@ -29,6 +31,7 @@ const moviesReducer = (state = initialValues,action) =>{
                       movies:[],
                       error: action.payload
                   }
+
                 case movieTypes.POST_MOVIE_REQUEST:
                     return{
                         ...state,
@@ -80,7 +83,7 @@ const moviesReducer = (state = initialValues,action) =>{
                                   return{
                                       ...state,
                                       loading:false,
-                                      editedMovie:{},
+                                      editedMovie:'',
                                       error: action.payload
 
                                   }                  

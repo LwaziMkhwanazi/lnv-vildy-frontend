@@ -52,12 +52,8 @@ function RentalForm() {
    
     const [movieRental,setMovieRental] = useState(null)
 
-   const handleClear = (data) =>{
-       data._id = null
-       data.name = null
-       data.phone = null
-       data.isGold = null
-   }
+  
+   
 
     const classes = useStyles()
 
@@ -66,15 +62,29 @@ function RentalForm() {
    
     }
     const handleClick = (movie) =>{
+     
         let rental = {
             ...cust,
-            ...movie
+            title: movie.title,
+            genre: movie.genre.name,
+            numberInStock: movie.numberInStock,
+            dailyRentalRate:movie.dailyRentalRate,
+            movieId:movie._id
         }
        console.log(rental)
        setMovieRental(rental)
         setOpenPopup(true)
     
 }
+
+const validationSchema = Yup.object({
+    name: Yup.string().min(5).max(50),
+    phone: Yup.string().required('Phone number is required').matches(/^[0-9]+$/, "Must be only digits").min(8, 'Must be exactly 8 digits').max(8, 'Must be exactly 8 digits'),
+    isGold: Yup.string()
+})
+
+
+
     return (
          <Container className = {classes.container} >
            
@@ -82,6 +92,7 @@ function RentalForm() {
                     initialValues = {cust || initialValues}
                     onSubmit = {handleSubmit}
                     enableReinitialize
+                    validationSchema = {validationSchema}
                    
                 >
                  {
@@ -98,11 +109,11 @@ function RentalForm() {
                                                     name = "phone"
                                                     label = "Phone number"
                                                     fullWidth
-                                                                InputProps={{
-                                        startAdornment: <InputAdornment position="start">
-                                            <SearchIcon/>
-                                        </InputAdornment>,
-                                    }}
+                                                         InputProps={{
+                                                                startAdornment: <InputAdornment position="start">
+                                                                    <SearchIcon/>
+                                                                </InputAdornment>,
+                                                            }}
                                                     
                                                  />
                                             </Grid>
@@ -129,10 +140,10 @@ function RentalForm() {
                                                     />
                                             </Grid>
                                             <Grid item>
-                                            <ActionButton variant = "outlined"  type = "submit" >
+                                            <ActionButton variant = "outlined"  type = "submit" disabled = {!formik.isValid}  >
                                                 <SearchIcon color = "primary"/>
                                                 </ActionButton>
-                                                <ActionButton variant = "outlined" onClick = {()=>handleClear(formik.values)} >
+                                                <ActionButton variant = "outlined" type = "reset" onClick = {()=>formik.resetForm()} >
                                                 <ClearAllIcon color = "primary"/>
                                                 </ActionButton>
                                             </Grid>

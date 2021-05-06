@@ -1,11 +1,13 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useRef} from 'react'
 import MovieIcon from '@material-ui/icons/Movie';
 import {Button, makeStyles,Container,Paper, Grid, CircularProgress} from "@material-ui/core"
 import PageHeader from "../../components/Uicompnents/PageHeader"
 import PopUp from "../../components/MuiReusableComponents/PopUp"
 import MovieForm from './MovieForm';
-import {fetchMovies,postMovie} from "../../redux/movies/movieAyncActions"
+import {fetchMovies} from "../../redux/movies/movieAyncActions"
 import MovieCard from "./MovieCard"
+import Notification from "../../components/MuiReusableComponents/Notifications"
+
 import {useSelector,useDispatch} from "react-redux"
 
 const useStyles = makeStyles(theme =>({
@@ -31,16 +33,67 @@ function MoviePage() {
     const postedData = movies && movies.postMovieSuccess
     const deletedMovie = movies && movies.deletedMovie
     const editedMovie = movies && movies.editedMovie
-    
+  
     const dispatch = useDispatch()
-       
+     
     const [openPopup,setOpenPopup] = useState(false)
-   const classes = useStyles()
+    
+    const classes = useStyles()
    
+    const [notify,setNotify] = useState({isOpen:false,message:'',type:''})
+
+    const editInitialRender = useRef(true);
+    const addInitialRender = useRef(true);
+    const deletedInitialRender = useRef(true);
+
+     // Delete
+
+    useEffect(() => {
+        if (deletedInitialRender.current) {
+          deletedInitialRender.current = false;
+        } else {
+            setNotify({
+                isOpen:true,
+                message:'Movie Deleted successfully',
+                type:'error'   
+            })
+        }
+      }, [deletedMovie]);
+
+
+ //Edit Notification
+    useEffect(() => {
+        if (editInitialRender.current) {
+          editInitialRender.current = false;
+        } else {
+            setNotify({
+                isOpen:true,
+                message:'Movie edited successfully',
+                type:'success'   
+            })
+        }
+      }, [editedMovie]);
+
+    //add Notification
+      useEffect(() => {
+        if (addInitialRender.current) {
+          addInitialRender.current = false;
+        } else {
+            setNotify({
+                isOpen:true,
+                message:'Movie added successfully',
+                type:'success'   
+            })
+        }
+      }, [postedData]);
+
+      
+
       useEffect(()=>{
         dispatch(fetchMovies())
       },[dispatch,postedData,deletedMovie,editedMovie])
-  
+
+     
      const grid = (
           <Grid container spacing = {2}>
                         {
@@ -76,10 +129,13 @@ function MoviePage() {
              width = "md"
             >
              <MovieForm 
-              postMovie = {postMovie}
-             setOpenPopup = {setOpenPopup}
+                 setOpenPopup = {setOpenPopup}
              />
             </PopUp>
+            <Notification
+                 notify = {notify}
+                 setNotify = {setNotify}   
+            />
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react'
+import React,{useEffect,useState,useRef} from 'react'
 import PageHeader from '../../components/Uicompnents/PageHeader'
 import AddIcon from '@material-ui/icons/Add';
 import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone';
@@ -13,12 +13,14 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SearchEditDeleteForm from './SearchEditDeleteForm';
+import Notification from "../../components/MuiReusableComponents/Notifications";
+import ConfirmDialog  from "../../components/MuiReusableComponents/ConfirmDialog"
 
 
 const useStyles = makeStyles( theme =>({
     container:{
         marginTop:theme.spacing(3),
-        padding:'15px 30px',
+        padding:'8px 10px',
     
     },
     button:{
@@ -44,14 +46,68 @@ const headCells = [
 
  
 function CustomerPage({customers,getCustomers,deleteCustomer}) {
+
    const records =  customers && customers.customers
     const classes = useStyles()
     const [openPopup,setOpenPopup] = useState(false)
     const [recordForEdit,setRecordForEdit] = useState(null)
     const editedCustomer = customers && customers.editCustomer
+    const postCustomer = customers && customers.customerSuccess
     const deletedCustomer = customers && customers.deletedCustomer
+    const [notify,setNotify] = useState({isOpen:false,message:'',type:''})
+    const editInitialRender = useRef(true);
+    const addInitialRender = useRef(true);
+    const deletedInitialRender = useRef(true);
+
+    const [confirmDialog,setConfirmDialog] = useState({isOpen:false,title:'',subTitle:''})
+   
+
+     // Delete
+
+    useEffect(() => {
+        if (deletedInitialRender.current) {
+          deletedInitialRender.current = false;
+        } else {
+            setNotify({
+                isOpen:true,
+                message:'Customer Deleted successfully',
+                type:'error'   
+            })
+        }
+      }, [deletedCustomer]);
+
+
+ //Edit Notification
+    useEffect(() => {
+        if (editInitialRender.current) {
+          editInitialRender.current = false;
+        } else {
+            setNotify({
+                isOpen:true,
+                message:'Customer edited successfully',
+                type:'success'   
+            })
+        }
+      }, [editedCustomer]);
+
+    //add Notification
+      useEffect(() => {
+        if (addInitialRender.current) {
+          addInitialRender.current = false;
+        } else {
+            setNotify({
+                isOpen:true,
+                message:'Customer added successfully',
+                type:'success'   
+            })
+        }
+      }, [postCustomer]);
+
+ 
  
 const {TblContainer,TblHeader,TblPagination,recordsAfterPagingAndSorting} = useTable(records,headCells)
+
+
 
 useEffect(()=>{
     getCustomers()
@@ -67,7 +123,7 @@ const editCustomer = (customer) =>{
             <PageHeader icon = {<PeopleOutlineTwoToneIcon fontSize = "large" />} 
             title = "Customer Page" 
             subtitle = "Add Delete Edit and Display Customers Details" />
-            <Container>
+            <Container  >
             <Paper>
                     <Grid container className = {classes.container}  >
                        <Grid item xs = {10}>
@@ -96,8 +152,15 @@ const editCustomer = (customer) =>{
                                                 </ActionButton>
                                                 <ActionButton
                                                     color = "secondary"
+                                                    onClick = {()=> setConfirmDialog({
+                                                                isOpen:true,
+                                                                title:'Are you sure you to delete this User ?',
+                                                                subTitle:"You can't undo this operation",
+                                                                onConfirm: ()=> {deleteCustomer(customer)}
+                                                                 })}
                                                 >
-                                                <DeleteIcon onClick = {()=> deleteCustomer(customer)} fontSize = "small"/>
+                                                <DeleteIcon  
+                                                    fontSize = "small"/>
                                                 </ActionButton>
                                                    
                                             </TableCell>
@@ -120,8 +183,15 @@ const editCustomer = (customer) =>{
              setOpenPopup = {setOpenPopup}
              />
             </PopUp>
-           
+            <Notification
+                 notify = {notify}
+                 setNotify = {setNotify}   
+            />
         </Container>
+        <ConfirmDialog
+             confirmDialog = {confirmDialog}
+            setConfirmDialog = {setConfirmDialog}
+            />
        </> 
     )
 }

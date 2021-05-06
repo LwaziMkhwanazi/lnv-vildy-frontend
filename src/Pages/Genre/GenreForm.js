@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React,{useEffect,useState} from 'react'
 import {Form,Formik} from "formik"
 import {Grid,makeStyles} from "@material-ui/core"
 import FormikControl from '../../components/Form/FormikControl';
@@ -8,6 +8,7 @@ import ClearAllIcon from '@material-ui/icons/ClearAll';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import {editGenre,postGenre,deleteGenre,fetchGenres} from "../../redux/genre/genreAyncActions"
+import ConfirmDialog  from "../../components/MuiReusableComponents/ConfirmDialog"
 import * as Yup from "yup" 
 import {connect} from "react-redux"
 
@@ -50,6 +51,8 @@ function GenreForm({recordForEdit,setRecordForEdit,postGenre,editGenre,deleteGen
 
     const classes = useStyles()
 
+    const [confirmDialog,setConfirmDialog] = useState({isOpen:false,title:'',subTitle:''})
+
    useEffect(()=>{
     getGenres()
    },[getGenres,postGenre,editGenre])
@@ -66,6 +69,7 @@ const handleAdd = values =>{
     values.name = ""
 }
     return (
+        <div>
         <Formik
             initialValues = { recordForEdit || initialValues }
             validationSchema = {validationSchema}
@@ -120,6 +124,11 @@ const handleAdd = values =>{
                } 
             }
         </Formik>
+        <ConfirmDialog
+            confirmDialog = {confirmDialog}
+            setConfirmDialog = {setConfirmDialog}
+            />
+        </div>   
     )
 }
  

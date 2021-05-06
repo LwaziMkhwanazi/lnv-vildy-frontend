@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react'
+import React,{useEffect,useState,useRef} from 'react'
 import PageHeader from '../../components/Uicompnents/PageHeader'
 import {makeStyles, Paper, TableBody, TableRow,TableCell,Container} from '@material-ui/core';
 import { fetchGenres,deleteGenre} from '../../redux/genre/genreAyncActions';
@@ -8,10 +8,12 @@ import ActionButton from '../../components/MuiReusableComponents/ActionButton';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Notification from "../../components/MuiReusableComponents/Notifications"
 import { CategoryRounded } from '@material-ui/icons';
 import {useSelector} from "react-redux";
 import {useDispatch} from "react-redux";
 import GenreForm from "./GenreForm"
+
 
 
 const useStyles = makeStyles( theme =>({
@@ -42,6 +44,7 @@ function GenrePage() {
     const classes = useStyles()
     const [openPopup,setOpenPopup] = useState(false)
     const [recordForEdit,setRecordForEdit] = useState(null)
+    const [notify,setNotify] = useState({isOpen:false,message:'',type:''})
    
   
 const dispatch = useDispatch()
@@ -53,6 +56,23 @@ const records =  genres && genres.genres
 
 
 console.log('Edited Genre',editedGenre)
+
+
+
+const addInitialRender = useRef(true);
+
+//add Notification
+      useEffect(() => {
+        if (addInitialRender.current) {
+          addInitialRender.current = false;
+        } else {
+            setNotify({
+                isOpen:true,
+                message:'Genre added successfully',
+                type:'success'   
+            })
+        }
+      }, [deletedGenre]);
 
 const {TblContainer,TblHeader,TblPagination,recordsAfterPagingAndSorting} = useTable(records,headCells)
    
@@ -115,7 +135,10 @@ const handleDelete = values =>{
              setOpenPopup = {setOpenPopup}
              />
             </PopUp>  
-           
+            <Notification
+                 notify = {notify}
+                 setNotify = {setNotify}   
+            />
         </div>
     )
 }

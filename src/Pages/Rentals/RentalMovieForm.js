@@ -1,9 +1,10 @@
-import React,{useState} from 'react'
-import { makeStyles,Container, Grid, Paper, Button,InputProps} from '@material-ui/core'
+import React from 'react'
+import { makeStyles,Container, Grid, Paper, Button} from '@material-ui/core'
 import {Form,Formik} from "formik"
 import FormikControl from '../../components/Form/FormikControl'
-import ActionButton from "../../components/MuiReusableComponents/ActionButton"
-import SearchIcon from '@material-ui/icons/Search';
+import {postRental} from "../../redux/rentals/rentalAsyncActions"
+import {useDispatch} from "react-redux"
+import {useHistory,useRouteMatch} from "react-router-dom"
 
 
 const useStyles = makeStyles( theme =>({
@@ -17,7 +18,9 @@ const useStyles = makeStyles( theme =>({
     button:{
         backgroundColor:theme.palette.primary.main,
         textTransform:"none",
-        color: theme.palette.common.white
+        color: theme.palette.common.white,
+        margin:theme.spacing(2),
+       
     },
     form:{
         '& .MuiFormControl-root':{
@@ -25,10 +28,7 @@ const useStyles = makeStyles( theme =>({
             margin: theme.spacing(1)
         } 
      },
-   button:{
-       margin:theme.spacing(2),
-       textTransform:'none'
-   }
+  
 }))
 
 
@@ -38,24 +38,34 @@ const initialValues = {
     dailyRentalRate:'',
     numberInStock:'',
     name:'',
-    genre:'',
     phone:''
 }
 
 
 
 
-function RentalMovieForm({movieRental}) {
+function RentalMovieForm({movieRental,setOpenPopup}) {
 
     const classes = useStyles()
+    const dispatch = useDispatch()
+   
 
-    
+        const history = useHistory()
+        const {path} = useRouteMatch() 
+
+    const handleSubmit = () =>{
+        dispatch(postRental(movieRental))
+        setOpenPopup(false)
+        history.push(`${path}/closedrental`)
+    }
+
     return (
          <Container className = {classes.container} >
            
                 <Formik
                     initialValues = { movieRental || initialValues}
                     enableReinitialize
+                    onSubmit = {handleSubmit}
                 >
                  {
                      (formik)=>{
@@ -138,7 +148,7 @@ function RentalMovieForm({movieRental}) {
                                                          }}
                                                  />
                                               
-                                                 <Button className = {classes.button} color = "primary" variant = "contained">Create Rental</Button>
+                                                 <Button className = {classes.button} type = "submit"  color = "primary" variant = "contained">Create Rental</Button>
                                             </Grid>
                                             
                                         </Grid>

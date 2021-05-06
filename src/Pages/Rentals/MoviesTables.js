@@ -54,7 +54,7 @@ function MoviesTables({setOpenPopup,handleClick}) {
                                         <TableRow onClick = {()=>handleClick(movie)} key = {movie._id}>
                                             <TableCell size = "small"  align = "center" >{movie.title}</TableCell>
                                             <TableCell  size = "small" align = "center" >{movie.genre.name}</TableCell>
-                                            <TableCell  size = "small"  align = "center" >{movie.dailyRentalRate}</TableCell>
+                                            <TableCell  size = "small"  align = "center" >{parseFloat(movie.dailyRentalRate).toFixed(2)}</TableCell>
                                             <TableCell  size = "small"  align = "center" >{movie.numberInStock}</TableCell>
                                         </TableRow>
                                 ))

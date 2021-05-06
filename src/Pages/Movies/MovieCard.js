@@ -10,6 +10,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import {useDispatch} from "react-redux"
 import MovieForm from "./MovieForm";
 import PopUp from "../../components/MuiReusableComponents/PopUp"
+import ConfirmDialog  from "../../components/MuiReusableComponents/ConfirmDialog"
 
 const useStyles = makeStyles( theme =>({
     blueColor:{
@@ -23,7 +24,7 @@ function MovieCard({genreName,title,dailyRentalRate,id,genreId, numberInStock })
     const dispatch = useDispatch()
     const [openPopup,setOpenPopup] = useState(false)
     const [recordForEdit,setRecordForEdit] = useState(null)
-
+    const [confirmDialog,setConfirmDialog] = useState({isOpen:false,title:'',subTitle:''})
 const handleEdit = () =>{
    const record = {
     genreId:'',
@@ -31,11 +32,14 @@ const handleEdit = () =>{
     title: title,
     dailyRentalRate: dailyRentalRate,
     numberInStock:numberInStock,
-  
 } 
  setRecordForEdit(record)
  setOpenPopup(true)
 
+}
+
+const handleDelete = (id) =>{
+        dispatch(deleteMovie(id))
 }
 
     return (
@@ -48,7 +52,12 @@ const handleEdit = () =>{
                             </Avatar>
                         }
                     action = {
-                        <IconButton onClick = {()=>dispatch(deleteMovie(id))} >
+                        <IconButton onClick = {()=> setConfirmDialog({
+                                    isOpen:true,
+                                    title:'Are you sure you to delete this Movie ?',
+                                    subTitle:"You can't undo this operation",
+                                    onConfirm: ()=>{handleDelete(id)}
+                                })} >
                             <DeleteIcon/>
                         </IconButton>
                     }
@@ -58,7 +67,7 @@ const handleEdit = () =>{
               />
               <CardContent>
                   <Typography gutterBottom color = "textSecondary">
-                        Daily Rental Rate  <strong> SZL</strong> : {dailyRentalRate}
+                        Daily Rental Rate  <strong> SZL</strong> : {parseFloat(dailyRentalRate).toFixed(2)}
                   </Typography>
                   <Typography gutterBottom color = "textSecondary">
                         Number In Stock   : {numberInStock}
@@ -81,6 +90,10 @@ const handleEdit = () =>{
              setOpenPopup = {setOpenPopup}
              />
             </PopUp>
+            <ConfirmDialog
+             confirmDialog = {confirmDialog}
+            setConfirmDialog = {setConfirmDialog}
+            />
         </div>
     )
 }

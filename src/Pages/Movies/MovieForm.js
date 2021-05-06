@@ -26,12 +26,11 @@ import * as Yup from "yup"
     }
  }))
 
-function MovieForm({genres,getGenres,postMovie,recordForEdit,editSingleMovie,setOpenPopup}) {
+function MovieForm({ genres,getGenres,postMovie,recordForEdit,editSingleMovie,setOpenPopup}) {
     const genreData = genres && genres.genres && genres.genres 
     useEffect(()=>{
         getGenres()
     },[getGenres])
-   
    
     
     const classes = useStyles()
@@ -47,7 +46,7 @@ const handleSubmit = values =>{
     
     if(recordForEdit != null){
         editSingleMovie(values)
-        setOpenPopup(false)
+    
     }else{
         postMovie(values)
         setOpenPopup(false)
@@ -55,7 +54,7 @@ const handleSubmit = values =>{
 
 }
 
-
+if(genreData === undefined) return <CircularProgress className = {classes.progress} size = "2rem" /> 
 
 const validationSchema = Yup.object({
     title:Yup.string().required('Title is Required').min(3).max(225),

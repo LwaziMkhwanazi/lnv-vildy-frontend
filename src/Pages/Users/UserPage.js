@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react'
+import React,{useEffect,useState,useRef} from 'react'
 import PageHeader from '../../components/Uicompnents/PageHeader'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import UserComponent from './UserComponent';
@@ -7,7 +7,9 @@ import PopUp from "../../components/MuiReusableComponents/PopUp"
 import {useDispatch,useSelector} from "react-redux";
 import {getUsers,deleteUser} from "../../redux/users/userAysncAction"
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Notification from "../../components/MuiReusableComponents/Notifications"
 import UserForm from './UserForm';
+
 
 
 const useStyle = makeStyles(theme =>({
@@ -33,6 +35,41 @@ function UserPage() {
     const deletedU = users && users.deletedUser
     const addedUser = users && users.postedUser
     const [openPopup,setOpenPopup] = useState(false)
+    const [notify,setNotify] = useState({isOpen:false,message:'',type:''})
+
+
+    const deletedInitialRender = useRef(true);
+    const addInitialRender = useRef(true);
+
+     // Delete
+
+    useEffect(() => {
+        if (deletedInitialRender.current) {
+          deletedInitialRender.current = false;
+        } else {
+            setNotify({
+                isOpen:true,
+                message:'User Deleted successfully',
+                type:'error'   
+            })
+        }
+      }, [deletedU]);
+
+
+ 
+
+    //add Notification
+      useEffect(() => {
+        if (addInitialRender.current) {
+          addInitialRender.current = false;
+        } else {
+            setNotify({
+                isOpen:true,
+                message:'User added successfully',
+                type:'success'   
+            })
+        }
+      }, [addedUser]);
 
     useEffect(()=>{
         dispatch(getUsers())
@@ -72,6 +109,10 @@ const handleDelet = (id) =>{
              <UserForm  setOpenPopup = {setOpenPopup}/>
             </PopUp>
             {users && users.loading? <CircularProgress className = {classes.progress} size = "2rem" /> : null}
+            <Notification
+                 notify = {notify}
+                 setNotify = {setNotify}   
+            />
         </div>
     )
 }

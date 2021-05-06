@@ -1,4 +1,4 @@
-import { Drawer, makeStyles, Typography,List,ListItemIcon,ListItemText,ListItem } from '@material-ui/core'
+import { Drawer, makeStyles,List,ListItemIcon,ListItemText,ListItem } from '@material-ui/core'
 import React from 'react'
 import Appbar from "../components/Uicompnents/Appbar";
 import MovieIcon from '@material-ui/icons/Movie';
@@ -7,9 +7,11 @@ import PeopleIcon from '@material-ui/icons/People';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import LocalMoviesIcon from '@material-ui/icons/LocalMovies';
 import { useHistory,useLocation } from 'react-router';
+import PollIcon from '@material-ui/icons/Poll';
 
 
-const drawerWidth = 220
+
+const drawerWidth = 220 
 const useStyles = makeStyles( theme =>({
     drawer:{
         width: drawerWidth
@@ -27,7 +29,16 @@ const useStyles = makeStyles( theme =>({
         background:'#f4f4f4'
     },
     title:{
-        padding: theme.spacing(3)
+      marginTop:theme.spacing(7)
+       
+    },
+    menuItems:{
+        fontSize:'14px',
+        lineHeight:'25px',
+        color:'#6b778c',
+        fontWeight:'600',
+        fontStyle:"normal",
+        
     }
 }))
 function Layout({children}) {
@@ -36,28 +47,33 @@ function Layout({children}) {
     const location = useLocation()
     const menuItems = [
         {
+            text:'Dashboard',
+            icon:  <PollIcon color = "primary"/>,
+            path: '/dashboard' 
+        },
+        {
             text:'Movies',
-            icon:  <MovieIcon color = "primary"/>,
+            icon:  <MovieIcon color = "#6b778c"/>,
             path: '/movies' 
         },
         {
             text:'Genres',
-            icon:  <CategoryRounded color = "primary"/>,
+            icon:  <CategoryRounded color = "#6b778c"/>,
             path: '/genres' 
         },
         {
             text:'Rentals',
-            icon:  <LocalMoviesIcon color = "primary"/>,
+            icon:  <LocalMoviesIcon color = "#6b778c"/>,
             path: '/rentals' 
         },
         {
             text:'Customers',
-            icon:  <PeopleIcon color = "primary"/>,
+            icon:  <PeopleIcon color = "#6b778c"/>,
             path: '/customers' 
         },
         {
             text:'Users',
-            icon:  <AccountBoxIcon color = "primary"/>,
+            icon:  <AccountBoxIcon color = "#6b778c"/>,
             path: '/users' 
         },
        
@@ -70,12 +86,8 @@ function Layout({children}) {
                 variant = "permanent"
                 anchor = "left"
                 classes = {{paper: classes.drawerPaper}}
-            >
-                <div>
-                    <Typography align = "center" className = {classes.title} variant = "h5" color = "primary" >
-                        Lnv Vidly
-                    </Typography>
-                </div>
+                    >
+                <div className ={classes.title} ></div>
                 <List>
                     {
                       menuItems.map( item =>(
@@ -83,8 +95,8 @@ function Layout({children}) {
                           onClick = {()=> history.push(item.path) } 
                           className = {location.pathname === item.path? classes.active : null}
                           >
-                              <ListItemIcon>{item.icon}</ListItemIcon>
-                              <ListItemText>{item.text}</ListItemText>
+                              <ListItemIcon className = {classes.menuItems} >{item.icon}</ListItemIcon>
+                              <ListItemText className = {classes.menuItems}>{item.text}</ListItemText>
                           </ListItem>
                       ))  
                     }

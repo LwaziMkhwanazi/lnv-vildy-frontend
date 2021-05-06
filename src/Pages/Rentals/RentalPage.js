@@ -4,8 +4,9 @@ import HdIcon from '@material-ui/icons/Hd'
 import { makeStyles,Container,Grid,Chip} from '@material-ui/core';
 import RentalsTable from "./RentalsTable";
 import RentalForm from './RentalForm';
-import SearchRentalForm from './SearchRentalForm';
-import {useRouteMatch,Route,Switch,useHistory} from  "react-router-dom"
+import ReturnRentalForm from "./ReturnRentalForm"
+import {useRouteMatch,Route,Switch,useHistory} from  "react-router-dom";
+import Returns from "./Retuns"
 
 const useStyles = makeStyles( theme =>({
     container:{
@@ -18,6 +19,12 @@ const useStyles = makeStyles( theme =>({
     chip:{
         cursor:'pointer',
         backgroundColor: theme.palette.primary.light,
+        color:theme.palette.common.white,
+        marginLeft:theme.spacing(1)
+    },
+    chipSec:{
+        cursor:'pointer',
+        backgroundColor: theme.palette.secondary,
         color:theme.palette.common.white,
         marginLeft:theme.spacing(1)
     },
@@ -54,8 +61,9 @@ function RentalPage() {
                     <Grid item>
                        <Chip className = {classes.chip} label = "Create Rental" onClick = {()=> history.push('/rentals/create')} />
                     </Grid>
+                    
                     <Grid item>
-                       <Chip className = {classes.chip} label = "Close Rental" onClick = {()=> history.push('/rentals/close')} />
+                       <Chip className = {classes.chipSec} color = "secondary" label = "Retuned Rental" onClick = {()=> history.push('/rentals/closedrental')} />
                     </Grid>
                 </Grid>
                 <Switch>
@@ -66,7 +74,10 @@ function RentalPage() {
                          <RentalForm/>
                     </Route>
                     <Route path = {`${path}/close`}>
-                         <SearchRentalForm/>
+                         <ReturnRentalForm/>
+                    </Route>
+                    <Route path = {`${path}/closedrental`}>
+                         <Returns/>
                     </Route>
                 </Switch>   
                           
