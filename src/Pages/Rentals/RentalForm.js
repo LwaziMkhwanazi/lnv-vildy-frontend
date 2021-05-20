@@ -1,7 +1,5 @@
-import React,{useState} from 'react'
-import { makeStyles,Container, Grid, Paper} from '@material-ui/core'
-import {Form,Formik} from "formik"
-import FormikControl from '../../components/Form/FormikControl'
+import React,{useState,useEffect,useRef} from 'react'
+import { makeStyles,Container, Grid, Paper, TextField} from '@material-ui/core'
 import {getSingleCustomer} from "../../redux/customers/customerAsyncActions"
 import {useDispatch,useSelector} from "react-redux"
 import ActionButton from "../../components/MuiReusableComponents/ActionButton"
@@ -11,7 +9,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import  MoviesTable from "./MoviesTables";
 import RentalMovieForm from "./RentalMovieForm";
 import PopUp from "../../components/MuiReusableComponents/PopUp"
-
+import Notification from "../../components/MuiReusableComponents/Notifications";
 import * as Yup from "yup"
 
 const useStyles = makeStyles( theme =>({
@@ -27,40 +25,77 @@ const useStyles = makeStyles( theme =>({
    
 }))
 
-
-const initialValues = {
-    _id:'',
-    name:'',
-    phone:'',
-    isGold:''
-}
-
-let cust = {
-    _id:'',
-    name:'',
-    phone:'',
-    isGold:''
-}
-
-
 function RentalForm() {
+    const initialValue = {
+        phone:'',
+        name:'',
+        isGold:''
+    }
+
+   
     
     const [openPopup,setOpenPopup] = useState(false)
     const dispatch = useDispatch()
+    const created = useSelector(state => state.rentals)
     const customer = useSelector(state => state.customers)
-    cust = customer && customer.singleCustomer
+    const rentalCreated = created && created.postedRental
+    const cust = customer && customer.singleCustomer
    
     const [movieRental,setMovieRental] = useState(null)
-
-  
+    const [pax,setPax] = useState(initialValue)
+    const [errors,setErrors] = useState(false)
+    const [notify,setNotify] = useState({isOpen:false,message:'',type:''})
+    const [helperText,setHelperText] = useState({phone:'',name:'',isGold:''})
+    
+ 
+    const numberSchema = Yup.object({
+        phone:Yup.string().required('Phone number is required').matches(/^[0-9]+$/, "Must be only digits").min(8, 'Must be exactly 8 digits').max(8, 'Must be exactly 8 digits'),
+        name:Yup.string(),
+        isGold: Yup.string()
+    })
+//Handle Search
+const handleSearch = async(e) =>{
+    e.preventDefault()
+    const phoneValidator = await numberSchema.isValid(pax)
+    if(!phoneValidator){
+        setErrors(true)
+        setHelperText({phone:'Invalid Phone number(8 digits only)',name: '',isGold:''})
+        return
+    }
+    console.log(pax)
+   dispatch(getSingleCustomer(pax))
+} 
+    
+   const  handleClear = () =>{
+       setPax({phone:'',name:'',isGold:''})
+       setErrors(false)
+       setHelperText({phone:'',name: '',isGold:''})
+   }
    
+ 
+   useEffect(()=>{
+    setPax({phone:cust.phone,name:cust.name,isGold:cust.isGold})
+   },[cust])
+
+
+  //Create Rental
+  const createInitialRender = useRef(true);
+  useEffect(() => {
+    if (createInitialRender.current) {
+         createInitialRender.current = false;
+    } else {
+        setNotify({
+            isOpen:true,
+            message:'Rental created successfully',
+            type:'success'   
+        })
+    }
+  }, [rentalCreated]);
+
+
 
     const classes = useStyles()
 
-    const handleSubmit = (values) =>{
-       dispatch(getSingleCustomer(values))
-   
-    }
     const handleClick = (movie) =>{
      
         let rental = {
@@ -68,7 +103,7 @@ function RentalForm() {
             title: movie.title,
             genre: movie.genre.name,
             numberInStock: movie.numberInStock,
-            dailyRentalRate:movie.dailyRentalRate,
+            dailyRentalRate:movie.dailyRentalRate.toFixed(2),
             movieId:movie._id
         }
        console.log(rental)
@@ -77,73 +112,72 @@ function RentalForm() {
     
 }
 
-const validationSchema = Yup.object({
-    name: Yup.string().min(5).max(50),
-    phone: Yup.string().required('Phone number is required').matches(/^[0-9]+$/, "Must be only digits").min(8, 'Must be exactly 8 digits').max(8, 'Must be exactly 8 digits'),
-    isGold: Yup.string()
-})
-
+const handleInputChange = (e) =>{
+   const {value,name} = e.target
+    setPax({...pax,[name]:value})
+}
 
 
     return (
          <Container className = {classes.container} >
-           
-                <Formik
-                    initialValues = {cust || initialValues}
-                    onSubmit = {handleSubmit}
-                    enableReinitialize
-                    validationSchema = {validationSchema}
-                   
-                >
-                 {
-                     (formik)=>{
-                        return  <Form>
-                       
                         <Paper className = {classes.paper}>
                                 <Grid container>
                                    
                                         <Grid container spacing = {2} >
                                             <Grid item sm>
-                                                 <FormikControl
-                                                    control = "MuiInput"
-                                                    name = "phone"
-                                                    label = "Phone number"
-                                                    fullWidth
-                                                         InputProps={{
-                                                                startAdornment: <InputAdornment position="start">
-                                                                    <SearchIcon/>
-                                                                </InputAdornment>,
-                                                            }}
-                                                    
-                                                 />
+                                              <TextField 
+                                              name = "phone"
+                                              error = {errors}
+                                              helperText = {helperText.phone}
+                                              onChange = {handleInputChange}
+                                              inputProps={
+					                           { autoFocus: true,
+                                                startAdornment: <InputAdornment position="start">
+                                                <SearchIcon/>
+                                                </InputAdornment>
+                                               }
+				                                    }
+                                               
+                                               size = {'small'} 
+                                               label = "Customer Phone" 
+                                               autoComplete = "off"
+                                               value = {pax.phone}
+                                               fullWidth 
+                                               variant = "outlined"/>
                                             </Grid>
+
                                             <Grid item sm>
-                                                    <FormikControl
-                                                        control = "MuiInput"
-                                                        name = "name"
-                                                        fullWidth
-                                                        shrink = "true"
-                                                        InputProps={{
-                                                         readOnly: true,
-                                                         }}
-                                                    />
+                                            <TextField 
+                                            name = "name"
+                                            onChange = {handleInputChange}
+                                            size = {'small'} 
+                                            inputProps={
+					                           { readOnly: true}
+				                                } label = "Name" 
+                                                fullWidth 
+                                                value = {pax.name}
+                                                variant = "outlined"/>                                                
                                             </Grid>
+
                                             <Grid item>
-                                                    <FormikControl
-                                                        control = "MuiInput"
-                                                        name = "isGold"
-                                                        fullWidth
-                                                        InputProps={{
-                                                        readOnly: true, 
-                                                        shrink : "true"
-                                                             }}
-                                                    />
-                                            </Grid>
+                                            <TextField 
+                                            name = "isGold"
+                                            onChange = {handleInputChange}
+                                            size = {'small'}
+                                             label = "isGold"
+                                             value = {pax.isGold}
+                                             inputProps={
+					                           { readOnly: true}
+				                                    } 
+                                                    
+                                              fullWidth
+                                               variant = "outlined"/>     
+                                               </Grid>
                                             <Grid item>
-                                            <ActionButton variant = "outlined"  type = "submit" disabled = {!formik.isValid}  >
+                                            <ActionButton variant = "outlined" onClick = {handleSearch}  type = "submit"   >
                                                 <SearchIcon color = "primary"/>
                                                 </ActionButton>
-                                                <ActionButton variant = "outlined" type = "reset" onClick = {()=>formik.resetForm()} >
+                                                <ActionButton onClick = {handleClear} variant = "outlined" type = "reset"  >
                                                 <ClearAllIcon color = "primary"/>
                                                 </ActionButton>
                                             </Grid>
@@ -153,10 +187,8 @@ const validationSchema = Yup.object({
                                 </Paper> 
 
                          
-                        </Form>
-                     }
-                 }
-                </Formik>
+                      
+             
                 <MoviesTable setOpenPopup = {setOpenPopup} handleClick = {handleClick} />
                     <PopUp
                     title = "Rental Form"
@@ -169,6 +201,12 @@ const validationSchema = Yup.object({
                         setOpenPopup = {setOpenPopup}
                     />
             </PopUp>
+            
+            <Notification
+                 notify = {notify}
+                 setNotify = {setNotify}   
+            />
+
         </Container>
     )
 }

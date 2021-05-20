@@ -5,7 +5,6 @@ import FormikControl from '../../components/Form/FormikControl';
 import SaveIcon from '@material-ui/icons/Save';
 import ActionButton from "../../components/MuiReusableComponents/ActionButton"
 import ClearAllIcon from '@material-ui/icons/ClearAll';
-import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
 import {editGenre,postGenre,deleteGenre,fetchGenres} from "../../redux/genre/genreAyncActions"
 import ConfirmDialog  from "../../components/MuiReusableComponents/ConfirmDialog"
@@ -24,14 +23,9 @@ const useStyles = makeStyles( theme =>({
 
 
 
-function GenreForm({recordForEdit,setRecordForEdit,postGenre,editGenre,deleteGenre,getGenres}) {
-        console.log('Records for edit', recordForEdit)
-
+function GenreForm({editedGenre,recordForEdit,setRecordForEdit,postGenre,editGenre,deleteGenre,getGenres}) {
     let initialValues = {
         name: '',
-      
-     
-       
     }
     const validationSchema = Yup.object({
         name: Yup.string().min(3).max(50).required('Genre is required'),
@@ -55,15 +49,18 @@ function GenreForm({recordForEdit,setRecordForEdit,postGenre,editGenre,deleteGen
 
    useEffect(()=>{
     getGenres()
-   },[getGenres,postGenre,editGenre])
+   },[getGenres,postGenre,editedGenre])
 
-   const handleDelete = values =>{
-     deleteGenre(values)
+   
+
+  
+const handleEdit = values =>{
+    editGenre(values)
     setRecordForEdit(null)
 }
 
-
 const handleAdd = values =>{
+  
     postGenre(values)
     setRecordForEdit(null)
     values.name = ""
@@ -99,17 +96,12 @@ const handleAdd = values =>{
                                 </Grid>
                                     
                                 <Grid item>
-                                <ActionButton color = "primary" type = "submit" >
+                                <ActionButton color = "primary" disabled = {!formik.isValid} onClick = {()=>handleEdit(formik.values)} >
                                     <SaveIcon/>
                                     </ActionButton>
                                 </Grid>
                                 <Grid item>
-                                <ActionButton onClick = {()=>handleDelete(formik.values)}  color = "secondary" type = "reset" >
-                                    <DeleteIcon/>
-                                    </ActionButton>
-                                </Grid>
-                                <Grid item>
-                                <ActionButton variant = "outlined" disabled = {!formik.isValid}  onClick = {()=>handleAdd(formik.values)} >
+                                <ActionButton variant = "outlined" disabled = {!formik.values}  onClick = {()=>handleAdd(formik.values)} >
                                     <AddIcon color = "primary"/>
                                     </ActionButton>
                                 </Grid>
@@ -131,7 +123,13 @@ const handleAdd = values =>{
         </div>   
     )
 }
- 
+
+const mapStateToProps = state =>{
+    return{
+        editedGenre: state.genres.editGenre
+    }
+}
+
 const mapDispatchedToProps = dispatch => {
     return{
         postGenre:(genre)=> dispatch(postGenre(genre)),
@@ -141,4 +139,4 @@ const mapDispatchedToProps = dispatch => {
     }
 }
 
-export default connect(null,mapDispatchedToProps)(GenreForm)
+export default React.memo(connect(mapStateToProps,mapDispatchedToProps)(GenreForm))

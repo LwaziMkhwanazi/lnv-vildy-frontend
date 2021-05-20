@@ -154,9 +154,12 @@ const editCustomer = (customer) =>{
                                                     color = "secondary"
                                                     onClick = {()=> setConfirmDialog({
                                                                 isOpen:true,
-                                                                title:'Are you sure you to delete this User ?',
+                                                                title:'Are you sure you to delete this Customer?',
                                                                 subTitle:"You can't undo this operation",
-                                                                onConfirm: ()=> {deleteCustomer(customer)}
+                                                                onConfirm: ()=> {
+                                                                    deleteCustomer(customer)
+                                                                    setConfirmDialog({isOpen:false})
+                                                                    }
                                                                  })}
                                                 >
                                                 <DeleteIcon  
@@ -167,6 +170,12 @@ const editCustomer = (customer) =>{
                                         </TableRow>
                                 ))
                             }
+                            <TableRow>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                            </TableRow>
                         </TableBody>
                   </TblContainer>
                  <TblPagination/>

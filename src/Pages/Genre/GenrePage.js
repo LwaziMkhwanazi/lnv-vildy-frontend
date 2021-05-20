@@ -9,6 +9,7 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Notification from "../../components/MuiReusableComponents/Notifications"
+import ConfirmDialog  from "../../components/MuiReusableComponents/ConfirmDialog"
 import { CategoryRounded } from '@material-ui/icons';
 import {useSelector} from "react-redux";
 import {useDispatch} from "react-redux";
@@ -55,13 +56,23 @@ const deletedGenre = genres.deletedGenre
 const records =  genres && genres.genres
 
 
-console.log('Edited Genre',editedGenre)
 
+//delete Notification
+const editInitialRender = useRef(true);
+      useEffect(() => {
+        if (editInitialRender.current) {
+          editInitialRender.current = false;
+        } else {
+            setNotify({
+                isOpen:true,
+                message:'Genre deleted successfully',
+                type:'error'   
+            })
+        }
+      }, [deletedGenre]);
 
-
-const addInitialRender = useRef(true);
-
-//add Notification
+      //added Notification
+    const addInitialRender = useRef(true);
       useEffect(() => {
         if (addInitialRender.current) {
           addInitialRender.current = false;
@@ -72,9 +83,28 @@ const addInitialRender = useRef(true);
                 type:'success'   
             })
         }
-      }, [deletedGenre]);
+      }, [postedGenre]);
+
+      
+      //adited Notification
+    const editedInitialRender = useRef(true);
+    useEffect(() => {
+      if (editedInitialRender.current) {
+        editedInitialRender.current = false;
+      } else {
+          setNotify({
+              isOpen:true,
+              message:'Genre edited successfully',
+              type:'success'   
+          })
+      }
+    }, [editedGenre]);
+
+
+const [confirmDialog,setConfirmDialog] = useState({isOpen:false,title:'',subTitle:''})
 
 const {TblContainer,TblHeader,TblPagination,recordsAfterPagingAndSorting} = useTable(records,headCells)
+
    
     useEffect(()=>{
         dispatch(fetchGenres())
@@ -82,8 +112,13 @@ const {TblContainer,TblHeader,TblPagination,recordsAfterPagingAndSorting} = useT
 
 const handleDelete = values =>{
     dispatch(deleteGenre(values))
+    setConfirmDialog({
+        isOpen:false
+    })
     setRecordForEdit(null)
 }
+
+
  
     return (
         <div>
@@ -112,13 +147,24 @@ const handleDelete = values =>{
                                                 <ActionButton
                                                     color = "secondary"
                                                 >
-                                                <DeleteIcon onClick = {()=>handleDelete(genre)} fontSize = "small"/>
+                                                <DeleteIcon onClick = {
+                                                ()=> setConfirmDialog({
+                                                isOpen:true,
+                                                title:'Are you sure you to delete this Genre?',
+                                                subTitle:"You can't undo this operation",
+                                                onConfirm:()=>handleDelete(genre)})}
+                                                    
+                                             fontSize = "small"/>
                                                 </ActionButton>
                                                    
                                             </TableCell>
                                         </TableRow>
                                 ))
                             }
+                            <TableRow>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                            </TableRow>
                         </TableBody>
                   </TblContainer>
                  <TblPagination/>
@@ -138,6 +184,10 @@ const handleDelete = values =>{
             <Notification
                  notify = {notify}
                  setNotify = {setNotify}   
+            />
+            <ConfirmDialog
+            confirmDialog = {confirmDialog}
+            setConfirmDialog = {setConfirmDialog}
             />
         </div>
     )

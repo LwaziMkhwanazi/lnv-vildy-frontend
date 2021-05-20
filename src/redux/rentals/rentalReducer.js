@@ -11,38 +11,39 @@ const rentalReducer = (state = initialValues,action) =>{
     switch(action.type){
         case rentalTypes.FETCH_RENTAL_REQUEST:
             return{
-                ...state,
                 loading:true
             }
             case rentalTypes.FETCH_RENTAL_SUCCESS:
                 return{
-                    ...state,
                     loading:false,
-                    rentals: action.payload
+                    rentals: action.payload,
+                    error:'',
+                    postedRental:{}
                 }
                 case rentalTypes.FETCH_RENTAL_FAILURE:
                     return{
-                        ...state,
                         loading:false,
                         rentals:[],
-                        error: action.payload
+                        error: action.payload,
+                        postedRental:{}
                     }
                  case rentalTypes.POST_RENTAL_REQUEST:
                      return{
-                         ...state,
                          loading:true
                      }
                      case rentalTypes.POST_RENTAL_SUCCESS:
                          return{
-                             ...state,
                              loading: false,
-                             postedRental: action.payload
+                             postedRental: action.payload,
+                             error:'',
+                            rentals:[]
                          }
                          case rentalTypes.POST_RENTAL_FAILURE:
                              return{
-                                 ...state,
                                 loading:false,
-                                error: action.payload
+                                error: action.payload,
+                                postedRental:{},
+                                rentals:[]
                              }   
 
             default:

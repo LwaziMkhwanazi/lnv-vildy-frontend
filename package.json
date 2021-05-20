@@ -1,5 +1,5 @@
 {
-  "name": "lnv-vidly-app",
+  "name": "vidly-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -13,7 +13,7 @@
     "@testing-library/user-event": "^12.8.1",
     "axios": "^0.21.1",
     "chart.js": "^3.2.0",
-    "date-fns": "^2.19.0",
+    "date-fns": "^2.21.3",
     "formik": "^2.2.6",
     "moment": "^2.29.1",
     "react": "^17.0.1",

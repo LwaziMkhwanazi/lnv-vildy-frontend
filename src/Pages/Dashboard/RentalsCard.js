@@ -7,10 +7,12 @@ import {
  
   } from '@material-ui/core';
 import CountUp from "react-countup"
+import blue from "@material-ui/core/colors/blue";
+import LocalMoviesIcon from '@material-ui/icons/LocalMovies';
   
  
 
-const DashboardCard = ({title,count,icon,dbColor},...props) => (
+const DashboardCard = ({title,count},...props) => (
   
 
     <Card
@@ -25,7 +27,8 @@ const DashboardCard = ({title,count,icon,dbColor},...props) => (
         >
           <Grid item>
             <Typography
-                style = {{fontSize:'14px', color: "#6b778c"}}
+               color="textSecondary"
+                style = {{fontSize:'14px'}}
                 gutterBottom
                 variant="h6"
             >
@@ -41,9 +44,9 @@ const DashboardCard = ({title,count,icon,dbColor},...props) => (
           </Grid>
           <Grid item>
             <Avatar
-                style = {{backgroundColor: dbColor}}   
+                style = {{backgroundColor: blue.A200}}   
             >
-             {icon}
+            <LocalMoviesIcon/>
             </Avatar>
           </Grid>
         </Grid>

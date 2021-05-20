@@ -2,15 +2,16 @@ import React,{useEffect} from 'react'
 import {fetchMovieCount,fetchCustomerCount,fetchRentalsCount} from "../../redux/dashboard/dashboardAsyncActions"
 import {useDispatch,useSelector} from "react-redux"
 import {Grid,Container,Box,makeStyles,Paper} from "@material-ui/core"
-import DashboardCard from './DashboardCard';
+import RentalsCard from './RentalsCard';
+import MovieCard from "./MovieCard";
+import CustomerCard from "./CustomerCard";
 import PeopleIcon from '@material-ui/icons/People';
 import LocalMoviesIcon from '@material-ui/icons/LocalMovies';
-import MovieIcon from '@material-ui/icons/Movie';
-import blue from "@material-ui/core/colors/blue";
-import pink from "@material-ui/core/colors/pink";
-import purple from '@material-ui/core/colors/purple';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import MovieIcon from '@material-ui/icons/Movie';
+
 import DashboardCharts from "./DashboardCharts";
+import DonutChart from "./DonutChart";
 
 
 const useStyle = makeStyles(theme =>({
@@ -35,6 +36,10 @@ const useStyle = makeStyles(theme =>({
     containerPaper:{
       padding:theme.spacing(3),
       marginTop:theme.spacing(3)
+    },
+    donutPaper:{
+      padding: '36px 20px',
+      marginTop:theme.spacing(3)
     }
 }))
 
@@ -48,14 +53,6 @@ function DashboardPage() {
     const customerCount = dashboardData && dashboardData.customerCount
     const rentalsCount = dashboardData && dashboardData.rentalsCount
 
-    const loading = dashboardData && dashboardData.loading
-    console.log(loading)
-    // console.log(movieNum.movies)
-    // console.log(customerCount.customers)
-    // console.log(rentalsCount.rentals)
-
-      
-
     useEffect(()=>{
         dispatch(fetchMovieCount())
         dispatch(fetchCustomerCount())
@@ -65,7 +62,7 @@ function DashboardPage() {
     if(movieNum === undefined) return <CircularProgress className = {classes.progress} />
     if(customerCount === undefined) return <CircularProgress className = {classes.progress} />
     if(rentalsCount === undefined) return <CircularProgress className = {classes.progress} />
-
+ 
     return (
          <Box
       sx={{
@@ -78,13 +75,13 @@ function DashboardPage() {
           container
           spacing={3}
         >
-         <Grid container spacing = {3} style = {{marginTop:'15px'}} >
+         <Grid container spacing = {2} style = {{marginTop:'15px'}} >
                         <Grid
                             item
                         sm
                         >
-                            < DashboardCard title = "NUMBER OF MOVIES" count = {movieNum.movies}
-                                icon = {<MovieIcon />} dbColor = {pink.A200}
+                            < MovieCard title = "NUMBER OF MOVIES" count = {movieNum.movies}
+                                icon = {<MovieIcon />} 
 
                              />
                         </Grid>
@@ -92,24 +89,30 @@ function DashboardPage() {
                             item
                         sm
                         >
-                        < DashboardCard title = "NUMBER OF CUSTOMERS" count = {customerCount.customers} 
-                        icon = {<PeopleIcon />} dbColor = {purple.A700}
+                        < CustomerCard title = "NUMBER OF CUSTOMERS" count = {customerCount.customers} 
+                        icon = {<PeopleIcon />} 
                         /> 
                         </Grid>
                         <Grid
                             item
                         sm
                         >
-                        < DashboardCard title = "NUMBER OF RENTALS" count = {rentalsCount.rentals} 
-                          icon = {<LocalMoviesIcon />} dbColor = {blue.A200}
+                        < RentalsCard title = "NUMBER OF RENTALS" count = {rentalsCount.rentals} 
+                          icon = {<LocalMoviesIcon />} 
                         /> 
                         </Grid>
          
          </Grid>
-              <Grid container>
+              <Grid container spacing = {2}>
                 <Grid item md = {8}> 
                    <Paper className = {classes.containerPaper} >
                           <DashboardCharts/>
+                        </Paper>  
+                   
+                </Grid>
+                <Grid item md = {4}> 
+                   <Paper className = {classes.donutPaper} >
+                          <DonutChart />
                         </Paper>  
                    
                 </Grid>

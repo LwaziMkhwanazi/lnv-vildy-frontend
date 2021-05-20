@@ -52,7 +52,7 @@ function RentalsTable() {
             customerId:rental.customer._id,
             movieId:rental.movie._id,
             title:rental.movie.title,
-            dailyRentalRate:rental.movie.dailyRentalRate,
+            dailyRentalRate:rental.movie.dailyRentalRate.toFixed(2),
             name: rental.customer.name,
             phone:rental.customer.phone,
             isGold:rental.customer.isGold, 
@@ -62,6 +62,7 @@ function RentalsTable() {
         setOpenPopup(true)
     }
 
+    if(records === undefined) return <CircularProgress className = {classes.progress} size = "2rem" />
     return (
         <div>
         <Container className = {classes.container}>
@@ -81,6 +82,14 @@ function RentalsTable() {
                                         </TableRow>
                                 ))
                             }
+                            <TableRow>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                            </TableRow>
                         </TableBody>
                   </TblContainer>
                  <TblPagination/>

@@ -7,6 +7,11 @@ import rentalReducer from "./rentals/rentalReducer"
 import closeRentalReducer from "./closeRental/closeRentalReducer"
 import dashBoardRoducer from "./dashboard/dashboardReducer"
 import closedRentalReducer from "./closeRental/closedRentalReducer"
+import actionCountReducer from './dashboard/actionCountReducer'
+import comedyCountReducer from "./dashboard/comedyCountReducer"
+import karateCountReducer from "./dashboard/karateCountReducer"
+import karateRomanticReducer from "./dashboard/romanticCountReducer"
+import seriesCountReducer from "./dashboard/seriesCountReducer"
 
 const rootReducer = combineReducers({
     customers: customerReducer,
@@ -16,7 +21,12 @@ const rootReducer = combineReducers({
     rentals: rentalReducer,
     closeRental: closeRentalReducer,
     dashboard:dashBoardRoducer,
-    closedRentals: closedRentalReducer
+    closedRentals: closedRentalReducer,
+    actionCount: actionCountReducer,
+    comedyCount: comedyCountReducer,
+    karateCount: karateCountReducer,
+    romanticCount: karateRomanticReducer,
+    seriesCount:seriesCountReducer
 })
 
 export default rootReducer

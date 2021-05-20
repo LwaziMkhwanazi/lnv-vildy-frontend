@@ -4,7 +4,7 @@ import {Form,Formik} from "formik"
 import FormikControl from '../../components/Form/FormikControl'
 import {postRental} from "../../redux/rentals/rentalAsyncActions"
 import {useDispatch} from "react-redux"
-import {useHistory,useRouteMatch} from "react-router-dom"
+
 
 
 const useStyles = makeStyles( theme =>({
@@ -45,18 +45,15 @@ const initialValues = {
 
 
 function RentalMovieForm({movieRental,setOpenPopup}) {
-
+    console.log(movieRental)
     const classes = useStyles()
     const dispatch = useDispatch()
    
 
-        const history = useHistory()
-        const {path} = useRouteMatch() 
-
     const handleSubmit = () =>{
         dispatch(postRental(movieRental))
         setOpenPopup(false)
-        history.push(`${path}/closedrental`)
+      
     }
 
     return (
