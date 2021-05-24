@@ -6,7 +6,13 @@ import { Badge, IconButton } from '@material-ui/core'
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import {logOUtAuth} from "../../redux/auth/authAyncAction";
 import {makeStyles} from "@material-ui/styles";
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import {useDispatch,useSelector} from "react-redux";
+import {useHistory} from "react-router-dom";
+
 
 const useStyles = makeStyles( theme => ({
     appBar:{
@@ -27,7 +33,24 @@ const useStyles = makeStyles( theme => ({
    
 }))
 function Appbar() {
+    const history = useHistory()
     const classes = useStyles()
+    const dispatch = useDispatch()
+    const auth = useSelector(state => state.auth)
+    const userAuth = auth && auth.auth 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+      dispatch(logOUtAuth(history))
+    
+    setAnchorEl(null);
+  };
+    console.log(userAuth)
+
     return (
         <AppBar position = "static" className = {classes.appBar}>
             <Toolbar>
@@ -44,12 +67,28 @@ function Appbar() {
                                 <ChatBubbleOutlineIcon fontSize = "small" />
                             </Badge>
                         </IconButton>
-                        <IconButton>
+                        { userAuth && (
+                            <IconButton onClick={handleClick}>
                            <PowerSettingsNewIcon fontSize = "small" />
                         </IconButton>
+                        )
+                            
+                        }
+                       
                     </Grid>
                 </Grid>
             </Toolbar>
+            <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem>Profile</MenuItem>
+        <MenuItem >My account</MenuItem>
+        <MenuItem onClick={handleClose}>Logout</MenuItem>
+      </Menu>
         </AppBar>
     )
 }

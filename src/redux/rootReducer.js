@@ -12,6 +12,7 @@ import comedyCountReducer from "./dashboard/comedyCountReducer"
 import karateCountReducer from "./dashboard/karateCountReducer"
 import karateRomanticReducer from "./dashboard/romanticCountReducer"
 import seriesCountReducer from "./dashboard/seriesCountReducer"
+import authReducer from "./auth/authReducer"
 
 const rootReducer = combineReducers({
     customers: customerReducer,
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
     comedyCount: comedyCountReducer,
     karateCount: karateCountReducer,
     romanticCount: karateRomanticReducer,
-    seriesCount:seriesCountReducer
+    seriesCount:seriesCountReducer,
+    auth:authReducer
 })
 
 export default rootReducer

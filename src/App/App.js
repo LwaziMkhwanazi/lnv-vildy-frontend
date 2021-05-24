@@ -11,6 +11,8 @@ import MoviePage from "../Pages/Movies/MoviePage";
 import UserPage from "../Pages/Users/UserPage";
 import RentalPage from "../Pages/Rentals/RentalPage"
 import DashboardPage from "../Pages/Dashboard/DashboardPage";
+import HomeLoginPage from "../Pages/HomeLoginPage/HomeLoginPage";
+import {useSelector} from "react-redux"
 
 const theme = createMuiTheme({
   palette:{
@@ -37,7 +39,8 @@ const theme = createMuiTheme({
 
 
 function App() {
-
+  const auth = useSelector(state => state.auth)
+    const userAuth = auth && auth.auth 
   return (
    <> 
   <ThemeProvider theme = {theme}>
@@ -45,24 +48,51 @@ function App() {
         <BrowserRouter>
         <Layout>
             <Switch>
-            <Route exact path = "/dashboard">
+            <Route exact path = "/">
+                    <HomeLoginPage/>
+                </Route>
+                {
+                  userAuth && (
+                    <Route exact path = "/dashboard">
                     <DashboardPage/>
                 </Route>
-                <Route exact path = "/genres">
+                  )
+                }
+                {
+                  userAuth && (
+                    <Route exact path = "/genres">
                     <GenrePage/>
-                </Route>
-                <Route path = "/customers">
+                   </Route>
+                  )
+                }
+               {
+                 userAuth && (
+                  <Route path = "/customers">
                     <CustomerPage/>
                 </Route>
-                <Route path = "/movies">
+                 )
+               }
+                {
+                  userAuth && (
+                    <Route path = "/movies">
                     <MoviePage/>
-                </Route>
-                <Route path = "/users">
+                  </Route>
+                  )
+                }
+                {
+                  userAuth && (
+                    <Route path = "/users">
                     <UserPage/>
-                </Route>
-                <Route path = "/rentals">
+                     </Route>
+                  )
+                }
+                {
+                  userAuth && (
+                    <Route path = "/rentals">
                     <RentalPage/>
                 </Route>
+                  )
+                }
             </Switch>
           </Layout>  
         </BrowserRouter>

@@ -8,7 +8,7 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import LocalMoviesIcon from '@material-ui/icons/LocalMovies';
 import { useHistory,useLocation } from 'react-router';
 import PollIcon from '@material-ui/icons/Poll';
-
+import {useSelector} from "react-redux";
 
 
 const drawerWidth = 220 
@@ -42,6 +42,11 @@ const useStyles = makeStyles( theme =>({
     }
 }))
 function Layout({children}) {
+
+    
+    const auth = useSelector(state => state.auth)
+    const userAuth = auth && auth.auth 
+
     const classes = useStyles()
     const history = useHistory()
     const location = useLocation()
@@ -78,8 +83,8 @@ function Layout({children}) {
         },
        
     ]
-    return (
-        <div className = {classes.root}>
+
+    const drawer = (
            
             <Drawer
                 className = {classes.drawer}
@@ -102,6 +107,12 @@ function Layout({children}) {
                     }
                 </List>
             </Drawer>
+    )
+    return (
+        <div className = {classes.root}>
+                {
+                   userAuth && (drawer)
+                }
 
             <div className = {classes.children}>
              <Appbar/>
