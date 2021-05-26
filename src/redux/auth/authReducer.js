@@ -1,8 +1,8 @@
 import * as authActionTypes from "./authActions"
-
+const localToken = localStorage.getItem('token')
 const initialValues = {
     loading:false,
-    auth:null,
+    auth:localToken,
     error:''
 }
 

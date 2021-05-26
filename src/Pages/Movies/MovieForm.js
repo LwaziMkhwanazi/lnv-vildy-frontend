@@ -28,6 +28,7 @@ import * as Yup from "yup"
 
 function MovieForm({ genres,getGenres,postMovie,recordForEdit,editSingleMovie,setOpenPopup}) {
     const genreData = genres && genres.genres && genres.genres 
+    console.log(genreData)
     useEffect(()=>{
         getGenres()
     },[getGenres])

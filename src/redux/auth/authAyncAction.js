@@ -32,9 +32,12 @@ export const postLoginDetails =(user,history)=>{
             password:user.password
         })
         .then( response =>{
-            const user = response.data
-            dispatch(fetchAuthSuccess(user))
+            const token = response.data
+           
             if(response.status === 200){
+                localStorage.setItem('token',token)
+                const localToken = localStorage.getItem('token')
+                dispatch(fetchAuthSuccess(localToken))
                 history.replace('/dashboard')
             }
         }).catch( error =>{
@@ -70,9 +73,10 @@ export const logOUtAuth =(history) =>{
         dispatch(fetchLogoutAuthRequest())
         axiosIntance.delete('/api/auth')
         .then( response =>{
-            const user = response.data
-            dispatch(fetchLogoutAuthSuccess(user))
+            const token = response.data
+            dispatch(fetchLogoutAuthSuccess(token))
             if(response.status === 200){
+                localStorage.removeItem('token')
                 history.replace('/')
             }
         }).catch( error =>{
