@@ -114,12 +114,11 @@ useEffect(()=>{
       
 
       useEffect(()=>{
-        dispatch(fetchMovies())
-      },[dispatch,postedData,deletedMovie,editedMovie])
+        dispatch(fetchMovies(genre))
+      },[dispatch,postedData,deletedMovie,editedMovie,genre])
 
       const handleChange = (event) => {
         console.log(event.target.value)
-        dispatch(fetchMovies(event.target.value))
        setGenre(event.target.value);
      };
 

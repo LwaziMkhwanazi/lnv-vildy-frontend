@@ -39,7 +39,7 @@ function RentalsTable() {
     const records = rentals && rentals.rentals
     const {TblContainer,TblHeader,TblPagination,recordsAfterPagingAndSorting} = useTable(records,headCells)
  
-    
+   
     useEffect(()=>{
         dispatch(fetchRentals())
     },[dispatch])

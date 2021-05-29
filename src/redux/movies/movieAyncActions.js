@@ -26,7 +26,7 @@ const fetchMovieFailure = error => {
 export const fetchMovies = (genre) =>{
         return dispatch =>{
              dispatch(fetchMovieRequest())
-            axiosInstance.get(`/api/movies/${genre}`)
+            axiosInstance.get(`/api/movies?genre=${genre}`)
             .then( response =>{
                 const movies = response.data
                 dispatch(fetchMovieSuccess(movies))

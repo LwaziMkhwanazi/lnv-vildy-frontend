@@ -33,10 +33,10 @@ function MoviesTables({setOpenPopup,handleClick}) {
     const records = movies && movies.movies
     
     const {TblContainer,TblHeader,TblPagination,recordsAfterPagingAndSorting} = useTable(records,headCells)
-
+    let genre = ''
     useEffect(()=>{
-        dispatch(fetchMovies())
-    },[dispatch])
+        dispatch(fetchMovies(genre))
+    },[dispatch,genre])
 
 
     
