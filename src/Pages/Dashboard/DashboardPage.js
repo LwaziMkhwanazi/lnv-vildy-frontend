@@ -53,6 +53,7 @@ function DashboardPage() {
     const customerCount = dashboardData && dashboardData.customerCount
     const rentalsCount = dashboardData && dashboardData.rentalsCount
 
+  
     useEffect(()=>{
         dispatch(fetchMovieCount())
         dispatch(fetchCustomerCount())
@@ -78,7 +79,9 @@ function DashboardPage() {
          <Grid container spacing = {2} style = {{marginTop:'15px'}} >
                         <Grid
                             item
-                        sm
+                            xm = {12}
+                            sm = {12}
+                            md
                         >
                             < MovieCard title = "NUMBER OF MOVIES" count = {movieNum.movies}
                                 icon = {<MovieIcon />} 
@@ -87,7 +90,9 @@ function DashboardPage() {
                         </Grid>
                         <Grid
                             item
-                        sm
+                            xm = {12}
+                        sm = {12}
+                          md
                         >
                         < CustomerCard title = "NUMBER OF CUSTOMERS" count = {customerCount.customers} 
                         icon = {<PeopleIcon />} 
@@ -95,7 +100,9 @@ function DashboardPage() {
                         </Grid>
                         <Grid
                             item
-                        sm
+                        xm = {12}
+                        sm = {12}
+                        md
                         >
                         < RentalsCard title = "NUMBER OF RENTALS" count = {rentalsCount.rentals} 
                           icon = {<LocalMoviesIcon />} 
@@ -104,13 +111,13 @@ function DashboardPage() {
          
          </Grid>
               <Grid container spacing = {2}>
-                <Grid item md = {8}> 
+                <Grid item xs = {12} sm = {12} md = {8}> 
                    <Paper className = {classes.containerPaper} >
                           <DashboardCharts/>
                         </Paper>  
                    
                 </Grid>
-                <Grid item md = {4}> 
+                <Grid item xs = {12} sm = {12} md = {4}> 
                    <Paper className = {classes.donutPaper} >
                           <DonutChart />
                         </Paper>  

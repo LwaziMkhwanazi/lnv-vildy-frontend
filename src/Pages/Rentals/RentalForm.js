@@ -62,7 +62,7 @@ const handleSearch = async(e) =>{
         setHelperText({phone:'Invalid Phone number(8 digits only)',name: '',isGold:''})
         return
     }
-    console.log(pax)
+ 
    dispatch(getSingleCustomer(pax))
 } 
     
@@ -106,7 +106,7 @@ const handleSearch = async(e) =>{
             dailyRentalRate:movie.dailyRentalRate.toFixed(2),
             movieId:movie._id
         }
-       console.log(rental)
+    
        setMovieRental(rental)
         setOpenPopup(true)
     

@@ -29,7 +29,7 @@ export const closedRentals = () =>{
             const movies = response.data
             dispatche(postClosedRentalSuccess(movies))
         }).catch( error =>{
-            const errMsg = error.massage 
+            const errMsg = error.response.data
             dispatche(postClosedRentalFailure(errMsg))
         } )
     }

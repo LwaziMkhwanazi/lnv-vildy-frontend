@@ -22,7 +22,6 @@ function DonutChart() {
     const romanticResults = romantic && romantic.romanticCount 
     const seriesResults = series && series.seriesCount
  
-    
     useEffect(()=>{
         dispatch(fetchActionCount())
         dispatch(fetchComedyCount())

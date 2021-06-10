@@ -3,6 +3,10 @@ import * as authActionTypes from "./authActions"
 
 
 
+export const setAuthToken =(token) =>{
+    return token
+}
+
 const fetchAuthRequest = () =>{
     return{
         type: authActionTypes.FETCH_LOGINAUTH_REQUEST
@@ -15,6 +19,8 @@ const fetchAuthSuccess = (auth) =>{
         payload: auth
     }
 }
+
+
 
 const fetchAuthFailure = (error) =>{
    return{
@@ -36,12 +42,16 @@ export const postLoginDetails =(user,history)=>{
            
             if(response.status === 200){
                 localStorage.setItem('token',token)
+                setAuthToken(token)
                 const localToken = localStorage.getItem('token')
                 dispatch(fetchAuthSuccess(localToken))
-                history.replace('/dashboard')
+                if(localToken){
+                    history.replace('/dashboard')  
+                }
+              
             }
         }).catch( error =>{
-            const errMsg = error.message 
+            const errMsg = error.response.data
             dispatch(fetchAuthFailure(errMsg))
         })
         
@@ -71,16 +81,16 @@ const fetchLogoutAuthFailure = (error) =>{
 export const logOUtAuth =(history) =>{
     return dispatch =>{
         dispatch(fetchLogoutAuthRequest())
-        axiosIntance.delete('/api/auth')
+        axiosIntance.get('/api/auth')
         .then( response =>{
-            const token = response.data
-            dispatch(fetchLogoutAuthSuccess(token))
+            const res = response.data
+            dispatch(fetchLogoutAuthSuccess(res))
             if(response.status === 200){
                 localStorage.removeItem('token')
                 history.replace('/')
             }
         }).catch( error =>{
-            const errMsg = error.message
+            const errMsg = error.response.data
             dispatch(fetchLogoutAuthFailure(errMsg))
         })
     }

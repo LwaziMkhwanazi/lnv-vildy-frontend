@@ -1,9 +1,10 @@
 import * as authActionTypes from "./authActions"
-const localToken = localStorage.getItem('token')
+
 const initialValues = {
     loading:false,
-    auth:localToken,
-    error:''
+    auth:localStorage.getItem('token'),
+    error:'',
+    logout:''
 }
 
 const authReducer = (state = initialValues,action) =>{
@@ -13,16 +14,18 @@ const authReducer = (state = initialValues,action) =>{
                 loading:true
             }
             case authActionTypes.FETCH_LOGINAUTH_SUCCESS:
+                
                 return{
                     loading:false,
-                    auth: action.payload,
+                    auth: localStorage.getItem('token'),
                     error:''
                 }
+               
                 case authActionTypes.FETCH_LOGINAUTH_FAILURE:
                     return{
                         loading: false,
                         auth:'',
-                        arror: action.payload
+                        error: action.payload
                     }
 
                     case authActionTypes.FETCH_LOGOUTAUTH_REQUEST:
@@ -33,6 +36,7 @@ const authReducer = (state = initialValues,action) =>{
                             return{
                                 loading:false,
                                 auth: null,
+                                logout: action.payload,
                                 error:''  
                             }
 

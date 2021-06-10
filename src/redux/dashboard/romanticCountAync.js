@@ -34,7 +34,7 @@ export const fetchRomanticCount = () =>{
             const romanticCount = response.data
             dispatch(fetchRomanticCountSuccess(romanticCount))
         }).catch( error =>{
-            const errMsg = error.massage 
+            const errMsg = error.response.data
             dispatch(fetchRomanticCountFailure(errMsg))
         })
     }

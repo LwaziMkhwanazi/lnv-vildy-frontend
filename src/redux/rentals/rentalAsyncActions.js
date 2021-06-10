@@ -29,8 +29,8 @@ export const fetchRentals = () =>{
             const rentals = response.data
             dispatch(fetchRentalSucces(rentals))
         }).catch( error =>{
-            const errorMsg = error.message
-            dispatch(fetchRentalFailure(errorMsg))
+            const errMsg = error.response.data
+            dispatch(fetchRentalFailure(errMsg))
         })
     }
 }
@@ -65,8 +65,8 @@ export const postRental = (movieRental) =>{
             const rental = response.data
             dispatch(postRentalSucces(rental))
         }).catch( error =>{
-            const erroMsg = error.message
-            dispatch(postRentalFailure(erroMsg))
+            const errMsg = error.response.data
+            dispatch(postRentalFailure(errMsg))
         })
     }
 }

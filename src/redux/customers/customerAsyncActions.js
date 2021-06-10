@@ -117,8 +117,8 @@ export const getSingleCustomer = customer =>{
                 dispatch(getSingleCustomerSuccess(customer))
             })
             .catch( error => {
-                const errorMsg = error.message
-                dispatch(getSingleCustomerFailure(errorMsg))
+                const errMsg = error.response.data
+                dispatch(getSingleCustomerFailure(errMsg))
             })
     }
 }
@@ -135,8 +135,8 @@ export const deleteCustomer = customer =>{
                         dispatch(deleteCustomerSuccess(customer))
                     })
                     .catch( error =>{
-                        const errorMsg = error.message
-                        dispatch(deleteCustomerFailure(errorMsg))
+                        const errMsg = error.response.data
+                        dispatch(deleteCustomerFailure(errMsg))
                     } )
     }
 }
@@ -157,8 +157,8 @@ export const editCustomer = (customer) =>{
                 dispatch(editCustomerSuccess(customers))
             })
             .catch(error =>{
-                const errorMsg = error.message
-                dispatch(editCustomerFailure(errorMsg))
+                const errMsg = error.response.data
+                dispatch(editCustomerFailure(errMsg))
             })
     }
 }
@@ -179,8 +179,8 @@ export const postCustomer = (customer) =>{
                     dispatch(postCustomerSuccess(customers))
                 })
                 .catch(error =>{
-                    const errorMsg = error.message
-                    dispatch(postCustomerFailure(errorMsg))
+                    const errMsg = error.response.data
+                    dispatch(postCustomerFailure(errMsg))
                 })
         }
 }
@@ -197,8 +197,8 @@ export const postCustomer = (customer) =>{
                     dispatch(fetchCustomerSuccess(customers))
             })
             .catch(error =>{
-                const errorMsg = error.message
-                dispatch(fetchCustomerFailure(errorMsg))
+                const errMsg = error.response.data
+                dispatch(fetchCustomerFailure(errMsg))
             })
     }
 }

@@ -34,7 +34,7 @@ export const fetchKarateCount = () =>{
             const karateCount = response.data
             dispatch(fetchKarateCountSuccess(karateCount))
         }).catch( error =>{
-            const errMsg = error.massage 
+            const errMsg = error.response.data
             dispatch(fetchKarateCountFailure(errMsg))
         })
     }

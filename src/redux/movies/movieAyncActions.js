@@ -32,8 +32,8 @@ export const fetchMovies = (genre) =>{
                 dispatch(fetchMovieSuccess(movies))
             })
             .catch( error =>{
-                const errorMsg = error.massage 
-                 dispatch(fetchMovieFailure(errorMsg))
+                const errMsg = error.response.data
+                 dispatch(fetchMovieFailure(errMsg))
             })
         }
 }
@@ -73,8 +73,8 @@ export const postMovie = movie =>{
             const movie = response.data
             dispatch(postMovieSuccess(movie))
         }).catch( error =>{
-            const errorMsg = error.massage
-            dispatch(postMovieFailure(errorMsg))
+            const errMsg = error.response.data
+            dispatch(postMovieFailure(errMsg))
         })
     }
 }
@@ -108,8 +108,8 @@ const deleteMovieFailure = error => {
             dispatch(deleteMovieSuccess(movie))
         })
         .catch( error =>{
-            const errorMsg = error.message 
-            dispatch(deleteMovieFailure(errorMsg))
+            const errMsg = error.response.data
+            dispatch(deleteMovieFailure(errMsg))
         })
 
 
@@ -150,8 +150,8 @@ export const editMovie = movie =>{
                 dispatch(editMovieSuccess(movie))
             })
             .catch( error =>{
-                const errorMsg = error.massage
-                dispatch(editMovieFailure(errorMsg))
+                const errMsg = error.response.data
+                dispatch(editMovieFailure(errMsg))
             })
 
         }

@@ -45,7 +45,7 @@ const initialValues = {
 
 
 function RentalMovieForm({movieRental,setOpenPopup}) {
-    console.log(movieRental)
+  
     const classes = useStyles()
     const dispatch = useDispatch()
    

@@ -3,7 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App/App';
 import store from "./redux/store";
-import {Provider} from "react-redux"
+import {Provider} from "react-redux";
+import axiosIntance from "./axios";
+
+
+
+axiosIntance.defaults.headers.common['auth'] = localStorage.getItem('token')
+ 
+
+ 
+
 ReactDOM.render(
       <Provider store = {store}>
         <React.StrictMode>

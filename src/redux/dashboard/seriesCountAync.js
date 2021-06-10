@@ -31,7 +31,7 @@ const GET_SERIESCOUNT_REQUEST  = 'GET_SERIESCOUNT_REQUEST'
               const seriesCount = response.data
               dispatch(fetchSeriesCountSuccess(seriesCount))
           }).catch( error =>{
-              const errMsg = error.massage 
+            const errMsg = error.response.data
               dispatch(fetchSeriesCountFailure(errMsg))
           })
       }

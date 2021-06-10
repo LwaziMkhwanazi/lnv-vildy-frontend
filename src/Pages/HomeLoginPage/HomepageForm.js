@@ -1,9 +1,10 @@
 import React from 'react'
 import {Form,Formik} from "formik"
-import {Grid,makeStyles,Button,Paper,Avatar} from "@material-ui/core"
+import {Grid,makeStyles,Button,Paper,Avatar,
+    FormHelperText,CircularProgress} from "@material-ui/core"
 import FormikControl from '../../components/Form/FormikControl';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import {useDispatch} from "react-redux"
+import {useDispatch,useSelector} from "react-redux"
 import {postLoginDetails} from "../../redux/auth/authAyncAction"
 import {useHistory} from "react-router-dom"
 
@@ -41,8 +42,14 @@ const useStyles = makeStyles( theme =>({
 
 
 function HomepageForm() {
+
     const history = useHistory()
     const dispatch = useDispatch()
+
+    const errInfo = useSelector(state => state.auth.error)
+    const loading = useSelector(state => state.auth.loading)
+
+    console.log(errInfo)
 
     let initialValues = {
         email:'',
@@ -115,10 +122,14 @@ function HomepageForm() {
                                         <div>
                                         
                                                 <Button className = {classes.button} fullWidth 
-                                                color = "primary" type = "submit" variant = "contained" >Sign In</Button>
+                                                color = "primary" type = "submit" variant = "contained" >
+                                                    {loading?  <CircularProgress style = {{color:'#fff'}} size = {30} /> : "Sign In" }
+                                                </Button>
                                             </div>
                                         
-                                    
+                                            <FormHelperText style = {{textAlign:'center'}} error = {errInfo? true : null}  component = "div"  variant = "outlined">
+                                               {errInfo}
+                                                </FormHelperText>
                                     
                                         </Paper>
                                     </Grid>

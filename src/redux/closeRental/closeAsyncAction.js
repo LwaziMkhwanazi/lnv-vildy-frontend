@@ -33,7 +33,7 @@ export const closeRental = (rental) =>{
             const closeRental = response.data
             dispatch(postCloseRentalSuccess(closeRental))
         }).catch( error =>{
-            const errMsg = error.message 
+            const errMsg = error.response.data
             dispatch(postCloseRentalFailure(errMsg))
         })
     }

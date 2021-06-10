@@ -100,8 +100,8 @@ export const deleteGenre = genre =>{
                         dispatch(deleteGenreSuccess(genre))
                     })
                     .catch( error =>{
-                        const errorMsg = error.message
-                        dispatch(deleteGenreFailure(errorMsg))
+                        const errMsg = error.response.data
+                        dispatch(deleteGenreFailure(errMsg))
                     } )
     }
 }
@@ -121,9 +121,9 @@ export const editGenre = (genre) =>{
                 const genre = response.data
                 dispatch(editGenreSuccess(genre))
             })
-            .catch(error =>{
-                const errorMsg = error.message
-                dispatch(editGenreFailure(errorMsg))
+            .catch( error =>{
+                const errMsg = error.response.data
+                dispatch(editGenreFailure(errMsg))
             })
     }
 }
@@ -143,8 +143,8 @@ export const postGenre = (genre) =>{
                     dispatch(postGenreSuccess(genre))
                 })
                 .catch(error =>{
-                    const errorMsg = error.message
-                    dispatch(postGenreFailure(errorMsg))
+                    const errMsg = error.response.data
+                    dispatch(postGenreFailure(errMsg))
                 })
         }
 }
@@ -160,10 +160,9 @@ export const postGenre = (genre) =>{
                     const genre = response.data
                         dispatch(fetchGenreSuccess(genre))
                 })
-            .catch(error =>{
-                const errorMsg = error.message
-                dispatch(fetchGenreFailure(errorMsg))
-            })
-     
+                .catch( error =>{
+                    const errMsg = error.response.data
+                    dispatch(fetchGenreFailure(errMsg))
+                })
     }
 }

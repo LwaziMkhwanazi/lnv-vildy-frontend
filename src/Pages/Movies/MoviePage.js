@@ -49,8 +49,6 @@ function MoviePage() {
     const deletedMovie = movies && movies.deletedMovie
     const editedMovie = movies && movies.editedMovie
   
-    console.log(genreData)
-
     const dispatch = useDispatch()
      
     const [openPopup,setOpenPopup] = useState(false)

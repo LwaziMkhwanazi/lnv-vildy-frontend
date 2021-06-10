@@ -29,7 +29,7 @@ const fetchMoviesCountFailure = (error) =>{
                     const movieCount = response.data
                     dispatch(fetchMoviesCountSuccess(movieCount))
                 }).catch( error =>{
-                    const errMsg = error.massage 
+                    const errMsg = error.response.data
                     dispatch(fetchMoviesCountFailure(errMsg))
                 })
             }

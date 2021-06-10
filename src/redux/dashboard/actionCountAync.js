@@ -33,7 +33,7 @@ export const fetchActionCount = () =>{
             const actionCount = response.data
             dispatch(fetchActionCountSuccess(actionCount))
         }).catch( error =>{
-            const errMsg = error.massage 
+            const errMsg = error.response.data
             dispatch(fetchActionCountFailure(errMsg))
         })
     }

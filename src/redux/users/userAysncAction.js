@@ -1,5 +1,6 @@
 import * as userTypes from "./userTypes"
 import axiosInstance from "../../axios"
+
 const fetchUserRequest= () =>{
     return{
         type: userTypes.FETCH_USER_REQUEST
@@ -30,8 +31,8 @@ export const getUsers = () =>{
             dispatch(fetchUserSucces(users))
         })
         .catch( error =>{
-            const errorMsg = error.massage
-            dispatch(fetchUserError(errorMsg))
+            const errMsg = error.response.data
+            dispatch(fetchUserError(errMsg))
         })
     }
 }
@@ -66,8 +67,8 @@ export const deleteUser = (user) =>{
             dispatch(deleteUserSucces(movie))
         })
         .catch( error =>{
-            const errorMsg = error.massage
-            dispatch(deleteUserError(errorMsg))
+            const errMsg = error.response.data
+            dispatch(deleteUserError(errMsg))
         })
     }
 }
@@ -106,8 +107,8 @@ export const postUser = user =>{
             dispatch(postUserSucces(user))
         })
         .catch( error =>{
-            const errorMsg = error.massage
-            dispatch(postUserError(errorMsg))
+            const errMsg = error.response.data
+            dispatch(postUserError(errMsg))
         })
     }
 }

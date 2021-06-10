@@ -49,7 +49,7 @@ function Appbar() {
     
     setAnchorEl(null);
   };
-    console.log(userAuth)
+   
 
     return (
         <AppBar position = "static" className = {classes.appBar}>
